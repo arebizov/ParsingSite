@@ -7,6 +7,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import ru.parsing.SourceData;
 import ru.parsing.model.Offers;
+import ru.parsing.model.PriceHisory;
 import ru.parsing.model.Stores;
 
 import java.io.IOException;
@@ -62,8 +63,8 @@ public class Parsing {
         session2.beginTransaction();
 
 
-        List<UniqOffers> uniqueDataList = new ArrayList<>();
-//        uniqueDataList.add(new UniqOffers(0, "test", "test"));
+        List<UniqOffers> uniqueDataList;// = new ArrayList<>();
+
 
         try {
             Query query2 = session2.createQuery(hql);
@@ -118,27 +119,66 @@ public class Parsing {
         sessionFactory3.close();
 
 
-        Configuration configuration3 = new Configuration().addAnnotatedClass(Offers.class);
-        SessionFactory sessionFactory4 = configuration3.buildSessionFactory();
+        Configuration configuration4 = new Configuration().addAnnotatedClass(Offers.class);
+        SessionFactory sessionFactory4 = configuration4.buildSessionFactory();
         Session session4 = sessionFactory4.getCurrentSession();
         session4.beginTransaction();
 
-        Query queryOffersAll = session4.createQuery(hqlOffers);
-        List<Offers> listOffersall = queryOffersAll.list();
+        Configuration configuration5 = new Configuration().addAnnotatedClass(PriceHisory.class);
+        SessionFactory sessionFactory5 = configuration5.buildSessionFactory();
+        Session session5 = sessionFactory5.getCurrentSession();
+        session5.beginTransaction();
 
-        for (SourceData finalList : list) {
-            for (Offers of : listOffersall) {
-                if (finalList.getOfferName().equals(of.getName()) && finalList.getStoreId() == of.getStoreID()) {
-                    finalList.setOfferId(of.getOfferId());
+        List<PriceHisory> priceHisoryList = new ArrayList<>();
+
+
+        try {
+            List<PriceHisory> uniqHistoryList;
+            Query queryOffersAll = session4.createQuery(hqlOffers);
+            List<Offers> listOffersall = queryOffersAll.list();
+
+            for (SourceData finalList : list) {
+                for (Offers of : listOffersall) {
+                    if (finalList.getOfferName().equals(of.getName()) && finalList.getStoreId() == of.getStoreID()) {
+                        finalList.setOfferId(of.getOfferId());
+                    }
                 }
+                int storeId = finalList.getStoreId();
+                int offerId = finalList.getOfferId();
+                double price = finalList.getPrice();
+                double priceGold = finalList.getPrice();
+                Date date = finalList.getDate();
+                priceHisoryList.add(new PriceHisory(storeId,offerId ,price,priceGold,date));
+
+            }
+            uniqHistoryList = priceHisoryList.stream().distinct().collect(Collectors.toList());
+
+            for(PriceHisory pr : uniqHistoryList ){
+
+                String hqlDeletePrice = "delete PriceHisory where storeId =:id and date =:date";
+                Query queryDelete = session5.createQuery(hqlDeletePrice);
+                queryDelete.setParameter("id", pr.getStoreId());
+                queryDelete.setParameter("date", pr.getDate());
+                queryDelete.executeUpdate();
             }
 
-            System.out.println(finalList.getStoreId() + " ;" + finalList.getOfferId() + "; " + finalList.getPrice() + ": " + finalList.getDate());
+            for(PriceHisory pr : priceHisoryList ){
+                PriceHisory priceHisory = new PriceHisory(pr.getStoreId(), pr.getOfferId(), pr.getPrice(), pr.getPriceGold(), pr.getDate());
+                session5.save(priceHisory);
+            }
 
+
+        } finally {
+            session5.getTransaction().commit();
+            session5.close();
+            sessionFactory5.close();
+
+
+            session4.getTransaction().commit();
+            session4.close();
+            sessionFactory4.close();
         }
-        session4.getTransaction().commit();
-        session4.close();
-        sessionFactory4.close();
+
 
     }
 
