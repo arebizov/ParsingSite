@@ -40,8 +40,10 @@ public class Etm {
             String page = LoadFromSite.download(url, ll.indexOf(url));
             Date date = Profile.getDate();
             Document doc = Jsoup.parse(page);
-            Element pr = doc.getElementsByClass("jss195").get(0);
-            Double price = Double.valueOf(String.valueOf(pr.childNode(0)));
+            String priceStr =  doc.getElementsByAttributeValueContaining("title","Цена с учетом акций и скидок от розничной цены").get(0).parentNode().parentNode().childNodes().get(1).childNodesCopy().get(0).toString();
+
+//            Element pr = doc.getElementsByClass("jss195").get(0);
+            Double price = Double.valueOf(String.valueOf(priceStr));
             Elements hTags = doc.select("h1");
             Elements h1Tags = hTags.select("h1");
             String offers = h1Tags.html();

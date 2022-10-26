@@ -3,6 +3,7 @@ package ru.parsing.sevice;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.json.JsonOutput;
 import ru.parsing.SourceData;
@@ -46,11 +47,15 @@ public class Test {
 
             Elements items = doc.getElementsByClass("item-card");
 
-            Element pr = doc.getElementsByClass("jss195").get(0);
+            String pr =  doc.getElementsByAttributeValueContaining("title","Цена с учетом акций и скидок от розничной цены").get(0).parentNode().parentNode().childNodes().get(1).childNodesCopy().get(0).toString();
 //            Double price = Double.valueOf(String.valueOf(pr.childNode(0)));
+
+            Elements pr2 =  doc.select("p:contains(<!-- -->₽)");
+//
             Elements hTags = doc.select("h1");
             Elements h1Tags = hTags.select("h1");
             String offers = h1Tags.html();
+            System.out.println(pr2);
 
 //            for (Element item : items) {
 //                String pricetr = item.getElementsByClass("pay").get(0).getElementsByClass("price").get(0).childNode(0).toString();

@@ -27,9 +27,9 @@ public class RunParsing {
         List<SourceData> listCableRu = cableRu.parsData();
         parsing.pars(listCableRu);
 
-//        Etm etm = new Etm();
-//        List<SourceData> listEtm = etm.parsData();
-//        parsing.pars(listEtm);
+        Etm etm = new Etm();
+        List<SourceData> listEtm = etm.parsData();
+        parsing.pars(listEtm);
 
         RuKeram ruKeram = new RuKeram();
         List<SourceData> listRuKeram = ruKeram.parsData();
