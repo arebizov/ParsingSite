@@ -15,6 +15,7 @@ import java.util.*;
 public class SourceExcel {
 
     private String fileLocation = "d:\\parsing.xlsx";
+//    private String fileLocation = "c:\\temp\\1.xlsx";
     FileInputStream file = new FileInputStream(new File(fileLocation));
     Workbook workbook = new XSSFWorkbook(file);
     Sheet sheet = workbook.getSheet("Сводная");
