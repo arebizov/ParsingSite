@@ -1,4 +1,4 @@
-package ru.parsing.files;
+package ru.parsing.files.doc;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -25,7 +25,7 @@ public class SourceExcel {
     long dateNow = Instant.now().toEpochMilli();
 
 
-    public List<SourceData> ParsExcel () {
+    public List<SourceData> parsData () {
 
         for (Row row : sheet) {
 
