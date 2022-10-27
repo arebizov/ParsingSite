@@ -1,8 +1,7 @@
-package ru.parsing.files.cable;
+package ru.parsing.files.waterProofing;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import ru.parsing.SourceData;
 import ru.parsing.sevice.LoadFromSite;
 import ru.parsing.sevice.Profile;
@@ -12,18 +11,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class CableRu {
-
+public class Tskdiplomat {
     public List<SourceData> listSourceAll = new ArrayList<>();
 
-    private static int category = 1389;
+    private static int category = 224461903;
     private static String unit = "М";
 
     public List<SourceData> parsData() throws IOException {
 
         List<String> pagesList = new ArrayList();
-        pagesList.add("https://cable.ru/cable/marka-vvgng_ls_3x2_5_0_66.php");
-        pagesList.add("https://cable.ru/cable/marka-vvgng_ls_3x1_5_0_66.php");
+        pagesList.add("https://tskdiplomat.ru/catalog/izolyatsionnye_materialy/waterproofing/pvkh_membrana/gidroizolyatsionnaya_pvkh_membrana_tekhnonikol_logicbase_v_st_1_6_mm_2_05x20_m.html");
+
         List<SourceData> listSource = parsing(pagesList);
         return listSource;
     }
@@ -36,19 +34,13 @@ public class CableRu {
             Date date = Profile.getDate();
 
             Document doc = Jsoup.parse(page);
-//            System.out.println(doc);
-            Element pr = doc.getElementsByClass("product-config__new").first();
-
-            String priceStr = pr.getElementsByAttributeValue("name", "item_price").val().replace(",", ".");
-            if (priceStr.trim().length() >0) {
-                Double price = Double.valueOf(priceStr);
-                String offers = pr.getElementsByAttributeValue("name", "item_name").val();
-                listSourceAll.add(new SourceData(store, offers, unit, price, date, category));
-            }
+            String offers = doc.getElementsByTag("h1").html();
+            String priceStr  = doc.getElementsByClass("smallElementToolsContainer").get(0).getElementsByClass("fullPrice_number").text();//.get(0).getElementsByClass("price").get(0).getElementsByAttributeValue("itemprop", "price").attr("content");
+            Double price = Double.valueOf(priceStr.replace(" ",""));
+            System.out.println(price);
+            System.out.println(offers);
+            listSourceAll.add(new SourceData(store, offers, unit, price, date, category));
         }
-
         return listSourceAll;
-
     }
-
 }

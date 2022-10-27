@@ -18,12 +18,15 @@ public class SourceData {
     private double price;
     private Date date;
 
-    public SourceData(String stores, String offerName, String unit, double price, Date date) {
+    private int category;
+
+    public SourceData(String stores, String offerName, String unit, double price, Date date, int category) {
         this.stores = stores;
         this.offerName = offerName;
         this.unit = unit;
         this.price = price;
         this.date= date;
+        this.category = category;
 
     }
 
@@ -85,5 +88,13 @@ public class SourceData {
 
     public void setUnit(String unit) {
         this.unit = unit;
+    }
+
+    public int getCategory() {
+        return category;
+    }
+
+    public void setCategory(int category) {
+        this.category = category;
     }
 }

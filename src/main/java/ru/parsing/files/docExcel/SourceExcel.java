@@ -1,4 +1,4 @@
-package ru.parsing.files.doc;
+package ru.parsing.files.docExcel;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -20,6 +20,7 @@ public class SourceExcel {
     Workbook workbook = new XSSFWorkbook(file);
     Sheet sheet = workbook.getSheet("Сводная");
     private  String storeName = "ExcelDocumentDUSS";
+    private static int category = 0;
     public List<SourceData> listSource = new ArrayList<>();
     Date start;
     Date end;
@@ -59,7 +60,7 @@ public class SourceExcel {
                     Date date1 = vStart2.getTime();
 
                     if( date1.getTime()<=dateNow){
-                        listSource.add(new SourceData(storeName ,offerName,unit,price,vStart2.getTime()) );
+                        listSource.add(new SourceData(storeName ,offerName,unit,price,vStart2.getTime(), category) );
                     }
 
                 }

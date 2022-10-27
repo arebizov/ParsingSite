@@ -1,32 +1,28 @@
-package ru.parsing.files.cable;
+package ru.parsing.files.paving;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import ru.parsing.SourceData;
 import ru.parsing.sevice.LoadFromSite;
-import ru.parsing.sevice.LoadFromSiteSelenium;
 import ru.parsing.sevice.Profile;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Etm {
+public class SlavDom {
 
     public List<SourceData> listSource = new ArrayList<>();
 
-    private static int category = 1389;
-    private static String unit = "М";
+    private static int category = 10049;
+    private static String unit = "m2";
+
     public List<SourceData> parsData() throws IOException {
 
 
         List<String> pagesList = new ArrayList();
-        pagesList.add("https://www.etm.ru/cat/nn/2126656");
-        pagesList.add("https://www.etm.ru/cat/nn/452373");
-
+        pagesList.add("https://slavdom.ru/catalog/p/62584-trotuarnaya-plitka-vybor-la-liniya-2p-10-gladkaya-seryy-200kh100kh100-mm/");
 
         List<SourceData> listSource = parsing(pagesList);
         return listSource;
@@ -35,23 +31,22 @@ public class Etm {
 
     public List<SourceData> parsing(List<String> ll) throws IOException {
         for (String url : ll) {
+            int i = ll.indexOf(url);
+
             LoadFromSite loadFromSite = new LoadFromSite();
             String store = loadFromSite.getStore(url);
             String page = LoadFromSite.download(url, ll.indexOf(url));
             Date date = Profile.getDate();
             Document doc = Jsoup.parse(page);
-            String priceStr =  doc.getElementsByAttributeValueContaining("title","Цена с учетом акций и скидок от розничной цены").get(0).parentNode().parentNode().childNodes().get(1).childNodesCopy().get(0).toString();
+            String offers = doc.getElementsByTag("h1").html();
+            String priceStr  = doc.getElementsByClass("cart__prices-row").get(0).getElementsByAttributeValue("class", "cart__price-item is-black").get(0).childNodes().get(0).toString();
+            Double price = Double.valueOf(priceStr.replace(" ",""));
+            System.out.println(price);
+            System.out.println(offers);
 
-//            Element pr = doc.getElementsByClass("jss195").get(0);
-            Double price = Double.valueOf(String.valueOf(priceStr));
-            Elements hTags = doc.select("h1");
-            Elements h1Tags = hTags.select("h1");
-            String offers = h1Tags.html();
-//        System.out.println(offers);
-//        System.out.println(price);
             listSource.add(new SourceData(store, offers, unit, price, date, category));
         }
+
         return listSource;
     }
-
 }

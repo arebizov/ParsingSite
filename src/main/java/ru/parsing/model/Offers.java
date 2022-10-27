@@ -23,15 +23,19 @@ public class Offers {
     @Column(name = "unit")
     private String unit;
 
+    @Column(name = "categoryId")
+    private Integer category;
+
 
     public Offers() {
     }
 
-    public Offers(int storeID,  String name, int offerId, String unit) {
+    public Offers(int storeID,  String name, int offerId, String unit, Integer category) {
         this.offerId = offerId;
         this.name = name;
         this.storeID = storeID;
         this.unit = unit;
+        this.category = category;
     }
 
     public int getInitId() {
@@ -64,6 +68,14 @@ public class Offers {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getCategory() {
+        return category;
+    }
+
+    public void setCategory(Integer category) {
+        this.category = category;
     }
 
     public String getUnit() {

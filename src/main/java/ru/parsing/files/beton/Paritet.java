@@ -19,7 +19,7 @@ public class Paritet {
 
     public List<SourceData> listSource = new ArrayList<>();
 
-    private static int category = 1231231;
+    private static int category = 17286;
 
     public List<SourceData> parsData() throws IOException {
 
@@ -50,7 +50,7 @@ public class Paritet {
                     String unit = cols.get(2).text();
                     float price = Float.parseFloat(cols.get(4).text().replace("-", "."));
 
-                    listSource.add(new SourceData(store, name, unit, price, date));
+                    listSource.add(new SourceData(store, name, unit, price, date, category));
                 }
 
             }

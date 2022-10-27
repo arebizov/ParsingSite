@@ -1,4 +1,4 @@
-package ru.parsing.files.cable;
+package ru.parsing.files.waterProofing;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -12,18 +12,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class CableRu {
+public class GvavSnabWaterProof {
 
     public List<SourceData> listSourceAll = new ArrayList<>();
 
-    private static int category = 1389;
+    private static int category = 224461903;
     private static String unit = "М";
 
     public List<SourceData> parsData() throws IOException {
 
         List<String> pagesList = new ArrayList();
-        pagesList.add("https://cable.ru/cable/marka-vvgng_ls_3x2_5_0_66.php");
-        pagesList.add("https://cable.ru/cable/marka-vvgng_ls_3x1_5_0_66.php");
+        pagesList.add("https://glavsnab.net/gidroizolyatsionnaya-pvkh-membrana-tekhnonikol-logicbase-v-st-1-6-mm-2-05x20-m.html");
+        pagesList.add("https://glavsnab.net/gidroizolyacionnaya-pvh-membrana-tehnonikol-logicbase-v-sl-zheltaya-2-mm-2-05x20-m.html");
+
         List<SourceData> listSource = parsing(pagesList);
         return listSource;
     }
@@ -36,19 +37,14 @@ public class CableRu {
             Date date = Profile.getDate();
 
             Document doc = Jsoup.parse(page);
-//            System.out.println(doc);
-            Element pr = doc.getElementsByClass("product-config__new").first();
-
-            String priceStr = pr.getElementsByAttributeValue("name", "item_price").val().replace(",", ".");
-            if (priceStr.trim().length() >0) {
-                Double price = Double.valueOf(priceStr);
-                String offers = pr.getElementsByAttributeValue("name", "item_name").val();
-                listSourceAll.add(new SourceData(store, offers, unit, price, date, category));
-            }
+            String offers = doc.getElementsByTag("h1").html();
+            String priceStr = doc.getElementsByClass("product-prices clearfix").get(0).getElementsByAttributeValue("itemprop", "price").attr("content");
+            Double price = Double.valueOf(priceStr);
+            System.out.println(offers);
+            System.out.println(price);
+            listSourceAll.add(new SourceData(store, offers, unit, price, date, category));
         }
-
         return listSourceAll;
-
     }
 
 }

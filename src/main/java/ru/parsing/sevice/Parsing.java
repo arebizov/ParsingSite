@@ -76,7 +76,7 @@ public class Parsing {
                 for (Stores st : listStoresUpdate) {
                     if (sd.getStores().equals(st.getStoreName())) {
                         sd.setStoreId(st.getId());
-                        listUniqOffers.add(new UniqOffers(sd.getStoreId(), sd.getOfferName(), sd.getUnit()));
+                        listUniqOffers.add(new UniqOffers(sd.getStoreId(), sd.getOfferName(), sd.getUnit(),sd.getCategory()));
 
                     }
                 }
@@ -109,7 +109,7 @@ public class Parsing {
                 }
             }
             if (a == 0) {
-                Offers offers2 = new Offers(un.storeID, un.offerName, Math.abs(un.offerName.hashCode()) % 1000000000, un.unit);
+                Offers offers2 = new Offers(un.storeID, un.offerName, Math.abs(un.offerName.hashCode()) % 1000000000, un.unit, un.category);
                 session3.save(offers2);
             }
 
@@ -186,11 +186,13 @@ public class Parsing {
         private int storeID;
         private String offerName;
         private String unit;
+        private int category;
 
-        public UniqOffers(int storeId, String offerName, String unit) {
+        public UniqOffers(int storeId, String offerName, String unit, int category) {
             this.storeID = storeId;
             this.offerName = offerName;
             this.unit = unit;
+            this.category = category;
         }
 
         @Override

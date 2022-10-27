@@ -17,7 +17,7 @@ public class SDvor {
 
     public List<SourceData> listSource = new ArrayList<>();
 
-    private static int category = 1389;
+    private static int category = 1557;
     private static String unit = "шт";
     public List<SourceData> parsData() throws IOException {
 
@@ -46,7 +46,7 @@ public class SDvor {
             Double price = Double.valueOf(priceStr.split(" ")[0]);
             System.out.println(price);
 
-                listSource.add(new SourceData(store, offers, unit, price, date));
+                listSource.add(new SourceData(store, offers, unit, price, date, category));
 
 
         }

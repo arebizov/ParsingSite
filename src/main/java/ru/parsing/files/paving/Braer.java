@@ -1,4 +1,4 @@
-package ru.parsing.files.brick;
+package ru.parsing.files.paving;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,18 +13,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class RuKeram {
+public class Braer {
 
     public List<SourceData> listSource = new ArrayList<>();
 
-    private static int category = 1557;
-    private static String unit = "шт";
+    private static int category = 10049;
+    private static String unit = "m2";
+
     public List<SourceData> parsData() throws IOException {
 
 
         List<String> pagesList = new ArrayList();
-        pagesList.add("https://rukeram.ru/catalog/kirpich/gzhel/m175/");
-
+        pagesList.add("https://braer.ru/catalog/bruschatka/trotuarnaya-plitka-pryamougolnik-seryj-h-40-mm-dvuhslojnaya");
 
         List<SourceData> listSource = parsing(pagesList);
         return listSource;
@@ -33,26 +33,21 @@ public class RuKeram {
 
     public List<SourceData> parsing(List<String> ll) throws IOException {
         for (String url : ll) {
+            int i = ll.indexOf(url);
+
             LoadFromSite loadFromSite = new LoadFromSite();
             String store = loadFromSite.getStore(url);
             String page = LoadFromSite.download(url, ll.indexOf(url));
             Date date = Profile.getDate();
             Document doc = Jsoup.parse(page);
-            Elements pr = doc.getElementsByClass("content bottom_border");
-            Elements asd = pr.get(0).getElementsByClass("border");
-            for (Element item : asd) {
+            Elements items = doc.getElementsByClass("col-lg-6 pl-md-0");
+            String offers = items.get(0).getElementsByAttributeValue("itemprop", "name").html();
+            String priceStr = items.get(0).getElementsByAttributeValue("class", "current_price").html();
+            Double price = Double.valueOf(priceStr);
 
-                Elements bOzonPrice = item.getElementsByClass("bOzonPrice");
-                Double price = Double.valueOf(bOzonPrice.get(0).getElementsByTag("span").get(0).getElementsByClass("eOzonPrice_main").html());
-                Elements top_zone = item.getElementsByClass("top_zone");
-                String offers = top_zone.get(0).getElementsByTag("a").get(1).getElementsByClass("name").html();
-//                System.out.println(offers);
-//                System.out.println(price);
                 listSource.add(new SourceData(store, offers, unit, price, date, category));
             }
 
-        }
         return listSource;
     }
-
 }

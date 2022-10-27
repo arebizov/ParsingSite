@@ -1,8 +1,7 @@
-package ru.parsing.files.brick;
+package ru.parsing.files.paving;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import ru.parsing.SourceData;
 import ru.parsing.sevice.LoadFromSite;
@@ -13,18 +12,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Ccomplekt {
+public class TheBrick {
 
     public List<SourceData> listSource = new ArrayList<>();
 
-    private static int category = 1557;
-    private static String unit = "шт";
+    private static int category = 10049;
+    private static String unit = "m2";
 
     public List<SourceData> parsData() throws IOException {
 
 
         List<String> pagesList = new ArrayList();
-        pagesList.add("https://cckomplekt.ru/catalog/kirpich/ryadovoi-kirpich/5373/");
+        pagesList.add("https://the-brick.ru/trotuarniy-kirpich/braer/217630/");
 
         List<SourceData> listSource = parsing(pagesList);
         return listSource;
@@ -40,17 +39,15 @@ public class Ccomplekt {
             String page = LoadFromSite.download(url, ll.indexOf(url));
             Date date = Profile.getDate();
             Document doc = Jsoup.parse(page);
-            Elements items = doc.getElementsByClass("item-card");
-            for (Element item : items) {
-                String pricetr = item.getElementsByClass("pay").get(0).getElementsByClass("price").get(0).childNode(0).toString();
-                Double price = Double.valueOf(pricetr.split(" ")[0]);
-                System.out.println(price);
-                String offers = doc.select("h1").html();
-                System.out.println(offers);
+            String offers = doc.getElementsByTag("h1").html();
+            String priceStr  = doc.getElementsByAttributeValue("class", "col col--xs-6 col--md-12").get(0).getElementsByAttributeValue("itemprop", "price").attr("content");
+            Double price = Double.valueOf(priceStr.replace(" ",""));
+//            System.out.println(price);
 
-                listSource.add(new SourceData(store, offers, unit, price, date, category));
-            }
+            listSource.add(new SourceData(store, offers, unit, price, date,category));
         }
+
         return listSource;
     }
+
 }
