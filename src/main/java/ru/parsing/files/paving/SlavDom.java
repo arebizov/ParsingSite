@@ -31,20 +31,24 @@ public class SlavDom {
 
     public List<SourceData> parsing(List<String> ll) throws IOException {
         for (String url : ll) {
-            int i = ll.indexOf(url);
+            try {
 
-            LoadFromSite loadFromSite = new LoadFromSite();
-            String store = loadFromSite.getStore(url);
-            String page = LoadFromSite.download(url, ll.indexOf(url));
-            Date date = Profile.getDate();
-            Document doc = Jsoup.parse(page);
-            String offers = doc.getElementsByTag("h1").html();
-            String priceStr  = doc.getElementsByClass("cart__prices-row").get(0).getElementsByAttributeValue("class", "cart__price-item is-black").get(0).childNodes().get(0).toString();
-            Double price = Double.valueOf(priceStr.replace(" ",""));
-            System.out.println(price);
-            System.out.println(offers);
 
-            listSource.add(new SourceData(store, offers, unit, price, date, category));
+                LoadFromSite loadFromSite = new LoadFromSite();
+                String store = loadFromSite.getStore(url);
+                String page = LoadFromSite.download(url, ll.indexOf(url));
+                Date date = Profile.getDate();
+                Document doc = Jsoup.parse(page);
+                String offers = doc.getElementsByTag("h1").html();
+                String priceStr = doc.getElementsByClass("cart__prices-row").get(0).getElementsByAttributeValue("class", "cart__price-item is-black").get(0).childNodes().get(0).toString();
+                Double price = Double.valueOf(priceStr.replace(" ", ""));
+//                System.out.println(price);
+//                System.out.println(offers);
+
+                listSource.add(new SourceData(store, offers, unit, price, date, category));
+            } catch (IOException | NumberFormatException e) {
+                System.out.println("Ошибка обработки SlavDom");;
+            }
         }
 
         return listSource;

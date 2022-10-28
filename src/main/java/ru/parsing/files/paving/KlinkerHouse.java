@@ -31,20 +31,24 @@ public class KlinkerHouse {
 
     public List<SourceData> parsing(List<String> ll) throws IOException {
         for (String url : ll) {
-            int i = ll.indexOf(url);
+            try {
 
-            LoadFromSite loadFromSite = new LoadFromSite();
-            String store = loadFromSite.getStore(url);
-            String page = LoadFromSite.download(url, ll.indexOf(url));
-            Date date = Profile.getDate();
-            Document doc = Jsoup.parse(page);
-            String offers = doc.getElementsByTag("h1").html();
-            String priceStr  = doc.getElementsByClass("buy_block").get(0).getElementsByClass("price").get(0).getElementsByAttributeValue("itemprop", "price").attr("content");
-            Double price = Double.valueOf(priceStr.replace(" ",""));
-            System.out.println(priceStr);
-            System.out.println(offers);
+                LoadFromSite loadFromSite = new LoadFromSite();
+                String store = loadFromSite.getStore(url);
+                String page = LoadFromSite.download(url, ll.indexOf(url));
+                Date date = Profile.getDate();
+                Document doc = Jsoup.parse(page);
+                String offers = doc.getElementsByTag("h1").html();
+                String priceStr = doc.getElementsByClass("buy_block").get(0).getElementsByClass("price").get(0).getElementsByAttributeValue("itemprop", "price").attr("content");
+                Double price = Double.valueOf(priceStr.replace(" ", ""));
+//            System.out.println(priceStr);
+//            System.out.println(offers);
 
-            listSource.add(new SourceData(store, offers, unit, price, date, category));
+                listSource.add(new SourceData(store, offers, unit, price, date, category));
+            } catch (IOException | NumberFormatException e) {
+                System.out.println("Ошибка обработки КлинкерХаус");
+                ;
+            }
         }
 
         return listSource;

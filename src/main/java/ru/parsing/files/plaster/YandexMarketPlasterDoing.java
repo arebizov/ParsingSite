@@ -1,4 +1,4 @@
-package ru.parsing.files.paving;
+package ru.parsing.files.plaster;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -11,17 +11,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class PetrovichPaving {
+public class YandexMarketPlasterDoing {
     public List<SourceData> listSource = new ArrayList<>();
 
-    private static int category = 10049;
-    private static String unit = "m2";
+    private static int category = 1447;
+    private static String unit = "кг";
 
     public List<SourceData> parsData() throws IOException {
 
 
         List<String> pagesList = new ArrayList();
-        pagesList.add("https://petrovich.ru/catalog/10049/106145/");
+        pagesList.add("https://market.yandex.ru/product--shtukaturka-knauf-rotband-30-kg/1863692361?cpa=1");
 
         List<SourceData> listSource = parsing(pagesList);
         return listSource;
@@ -37,14 +37,13 @@ public class PetrovichPaving {
                 String page = LoadFromSite.download(url, ll.indexOf(url));
                 Date date = Profile.getDate();
                 Document doc = Jsoup.parse(page);
-                String offers = doc.getElementsByTag("h1").html();
-                String priceStr = doc.getElementsByClass("price-details").get(0).getElementsByAttributeValue("data-test", "product-gold-price").get(0).childNodes().get(0).toString();
+                String offers = doc.getElementsByClass("product").get(0).getElementsByTag("h1").html().replace("&nbsp;", " ");
+                String priceStr = doc.getElementsByClass("product").get(0).getElementsByAttributeValue("itemprop", "lowPrice").get(0).attr("content");
                 Double price = Double.valueOf(priceStr.replace(" ", ""));
 
                 listSource.add(new SourceData(store, offers, unit, price, date, category));
             } catch (IOException | NumberFormatException e) {
-                System.out.println("Ошибка обработки ПетровичПавинг");
-
+                System.out.println("Ошибка обработки YandexMarket");
             }
         }
 

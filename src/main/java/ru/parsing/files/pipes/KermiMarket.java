@@ -1,4 +1,4 @@
-package ru.parsing.files.waterProofing;
+package ru.parsing.files.pipes;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -11,16 +11,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Tskdiplomat {
+public class KermiMarket {
+
     public List<SourceData> listSourceAll = new ArrayList<>();
 
-    private static int category = 224461903;
+    private static int category = 7189;
     private static String unit = "М";
 
     public List<SourceData> parsData() throws IOException {
 
         List<String> pagesList = new ArrayList();
-        pagesList.add("https://tskdiplomat.ru/catalog/izolyatsionnye_materialy/waterproofing/pvkh_membrana/gidroizolyatsionnaya_pvkh_membrana_tekhnonikol_logicbase_v_st_1_6_mm_2_05x20_m.html");
+        pagesList.add("https://kermi-market.ru/product/truba-rehau-flex-25-mm-rautitan/");
+        pagesList.add("https://kermi-market.ru/product/truba-rehau-flex-32-mm-rautitan/");
 
         List<SourceData> listSource = parsing(pagesList);
         return listSource;
@@ -29,8 +31,6 @@ public class Tskdiplomat {
     public List<SourceData> parsing(List<String> ll) throws IOException {
         for (String url : ll) {
             try {
-
-
                 LoadFromSite loadFromSite = new LoadFromSite();
                 String page = LoadFromSite.download(url, ll.indexOf(url));
                 String store = loadFromSite.getStore(url);
@@ -38,15 +38,17 @@ public class Tskdiplomat {
 
                 Document doc = Jsoup.parse(page);
                 String offers = doc.getElementsByTag("h1").html();
-                String priceStr = doc.getElementsByClass("smallElementToolsContainer").get(0).getElementsByClass("fullPrice_number").text();//.get(0).getElementsByClass("price").get(0).getElementsByAttributeValue("itemprop", "price").attr("content");
-                Double price = Double.valueOf(priceStr.replace(" ", ""));
-//                System.out.println(price);
+                String priceStr = doc.getElementsByClass("product_page").get(0).getElementsByAttributeValue("itemprop", "price").attr("content");
+                Double price = Double.valueOf(priceStr.replace("₽", "").replace(" ", ""));
+//                System.out.println(priceStr);
 //                System.out.println(offers);
                 listSourceAll.add(new SourceData(store, offers, unit, price, date, category));
             } catch (IOException | NumberFormatException e) {
-                System.out.println("Ошибка обработки Tskdiplomat");;
+                System.out.println("Ошибка обработки KermiMarket");
+                ;
             }
         }
         return listSourceAll;
     }
+
 }

@@ -36,7 +36,7 @@ public class Kirpich {
 
     public List<SourceData> parsing(List<String> ll) throws IOException {
         for (String url : ll) {
-            int i = ll.indexOf(url);
+            try{
 
             LoadFromSite loadFromSite = new LoadFromSite();
             String store = loadFromSite.getStore(url);
@@ -54,6 +54,9 @@ public class Kirpich {
 
 
                 listSource.add(new SourceData(store, offers, unit, price, date, category));
+            }
+        } catch (IOException | NumberFormatException e) {
+                System.out.println("Ошибка обработки Kirpich");;
             }
         }
         return listSource;

@@ -33,20 +33,23 @@ public class Braer {
 
     public List<SourceData> parsing(List<String> ll) throws IOException {
         for (String url : ll) {
-            int i = ll.indexOf(url);
+            try {
 
-            LoadFromSite loadFromSite = new LoadFromSite();
-            String store = loadFromSite.getStore(url);
-            String page = LoadFromSite.download(url, ll.indexOf(url));
-            Date date = Profile.getDate();
-            Document doc = Jsoup.parse(page);
-            Elements items = doc.getElementsByClass("col-lg-6 pl-md-0");
-            String offers = items.get(0).getElementsByAttributeValue("itemprop", "name").html();
-            String priceStr = items.get(0).getElementsByAttributeValue("class", "current_price").html();
-            Double price = Double.valueOf(priceStr);
+                LoadFromSite loadFromSite = new LoadFromSite();
+                String store = loadFromSite.getStore(url);
+                String page = LoadFromSite.download(url, ll.indexOf(url));
+                Date date = Profile.getDate();
+                Document doc = Jsoup.parse(page);
+                Elements items = doc.getElementsByClass("col-lg-6 pl-md-0");
+                String offers = items.get(0).getElementsByAttributeValue("itemprop", "name").html();
+                String priceStr = items.get(0).getElementsByAttributeValue("class", "current_price").html();
+                Double price = Double.valueOf(priceStr);
 
                 listSource.add(new SourceData(store, offers, unit, price, date, category));
+            } catch (IOException | NumberFormatException e) {
+                System.out.println("Ошибка обработки Braer");;
             }
+        }
 
         return listSource;
     }

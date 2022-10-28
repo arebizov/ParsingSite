@@ -30,20 +30,22 @@ public class CableRu {
 
     public List<SourceData> parsing(List<String> ll) throws IOException {
         for (String url : ll) {
-            LoadFromSite loadFromSite = new LoadFromSite();
-            String page = LoadFromSite.download(url, ll.indexOf(url));
-            String store = loadFromSite.getStore(url);
-            Date date = Profile.getDate();
+            try {
+                LoadFromSite loadFromSite = new LoadFromSite();
+                String page = LoadFromSite.download(url, ll.indexOf(url));
+                String store = loadFromSite.getStore(url);
+                Date date = Profile.getDate();
 
-            Document doc = Jsoup.parse(page);
-//            System.out.println(doc);
-            Element pr = doc.getElementsByClass("product-config__new").first();
-
-            String priceStr = pr.getElementsByAttributeValue("name", "item_price").val().replace(",", ".");
-            if (priceStr.trim().length() >0) {
-                Double price = Double.valueOf(priceStr);
-                String offers = pr.getElementsByAttributeValue("name", "item_name").val();
-                listSourceAll.add(new SourceData(store, offers, unit, price, date, category));
+                Document doc = Jsoup.parse(page);
+                Element pr = doc.getElementsByClass("product-config__new").first();
+                String priceStr = pr.getElementsByAttributeValue("name", "item_price").val().replace(",", ".");
+                if (priceStr.trim().length() > 0) {
+                    Double price = Double.valueOf(priceStr);
+                    String offers = pr.getElementsByAttributeValue("name", "item_name").val();
+                    listSourceAll.add(new SourceData(store, offers, unit, price, date, category));
+                }
+            } catch (IOException | NumberFormatException e) {
+                System.out.println("Ошибка обработки Cable");
             }
         }
 

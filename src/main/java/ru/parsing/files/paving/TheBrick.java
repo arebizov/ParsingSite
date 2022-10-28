@@ -32,19 +32,22 @@ public class TheBrick {
 
     public List<SourceData> parsing(List<String> ll) throws IOException {
         for (String url : ll) {
-            int i = ll.indexOf(url);
+            try {
 
-            LoadFromSite loadFromSite = new LoadFromSite();
-            String store = loadFromSite.getStore(url);
-            String page = LoadFromSite.download(url, ll.indexOf(url));
-            Date date = Profile.getDate();
-            Document doc = Jsoup.parse(page);
-            String offers = doc.getElementsByTag("h1").html();
-            String priceStr  = doc.getElementsByAttributeValue("class", "col col--xs-6 col--md-12").get(0).getElementsByAttributeValue("itemprop", "price").attr("content");
-            Double price = Double.valueOf(priceStr.replace(" ",""));
-//            System.out.println(price);
+                LoadFromSite loadFromSite = new LoadFromSite();
+                String store = loadFromSite.getStore(url);
+                String page = LoadFromSite.download(url, ll.indexOf(url));
+                Date date = Profile.getDate();
+                Document doc = Jsoup.parse(page);
+                String offers = doc.getElementsByTag("h1").html();
+                String priceStr = doc.getElementsByAttributeValue("class", "col col--xs-6 col--md-12").get(0).getElementsByAttributeValue("itemprop", "price").attr("content");
+                Double price = Double.valueOf(priceStr.replace(" ", ""));
 
-            listSource.add(new SourceData(store, offers, unit, price, date,category));
+                listSource.add(new SourceData(store, offers, unit, price, date, category));
+            } catch (IOException | NumberFormatException e) {
+                System.out.println("Ошибка обработки TheBrick");
+                ;
+            }
         }
 
         return listSource;

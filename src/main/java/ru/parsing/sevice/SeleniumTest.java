@@ -22,15 +22,15 @@ public class SeleniumTest {
 
     public static void main(String[] args) throws IOException {
 
-//        Document doc = Jsoup.parse(download());
-//        System.out.println(doc);
-        Document doc = Jsoup.connect("https://www.sdvor.com/moscow/product/kirpich-odinarnyj-polnotelyj-rjadovoj-m150-vorotynsk-71136").get();
-        String offers = doc.getElementsByTag("h1").html().replace("&nbsp;","");
-        System.out.println(offers);
-        String priceStr = doc.getElementsByAttributeValue("aria-label", "Product price").first().html();
-        Double price = Double.valueOf(priceStr.split(" ")[0]);
-        System.out.println(price);
-//        Element pr = doc.getElementsByClass("price-value").first();
+        Document doc = Jsoup.parse(download());
+        System.out.println(doc);
+//        Document doc = Jsoup.connect("https://market.yandex.ru/product--shtukaturka-knauf-rotband-30-kg/1863692361?cpa=1").get();
+//        String offers = doc.getElementsByTag("h1").html().replace("&nbsp;","");
+//        System.out.println(offers);
+//        String priceStr = doc.getElementsByAttributeValue("aria-label", "Product price").first().html();
+//        Double price = Double.valueOf(priceStr.split(" ")[0]);
+//        System.out.println(price);
+////        Element pr = doc.getElementsByClass("price-value").first();
 //        System.out.println("________________________");
 //        System.out.println(pr);
 //        System.out.println(pr.childNode(0));
@@ -52,7 +52,7 @@ public class SeleniumTest {
         options.addArguments("--start-maximized", "--headless", "--window-size=2560,1440","--ignore-certificate-errors","--disable-extensions","--disable-dev-shm-usage");
         options.addArguments("--log-level=3");
 
-        driver.get("https://www.sdvor.com/moscow/product/kirpich-odinarnyj-polnotelyj-rjadovoj-m150-vorotynsk-71136");
+        driver.get("https://market.yandex.ru/product--shtukaturka-knauf-rotband-30-kg/1863692361?cpa=1");
 
         WebElement footer = driver.findElement(By.tagName("footer"));
         Duration fromChar1 = Duration.parse("P2DT3H4M");

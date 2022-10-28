@@ -19,6 +19,7 @@ public class RuKeram {
 
     private static int category = 1557;
     private static String unit = "шт";
+
     public List<SourceData> parsData() throws IOException {
 
 
@@ -33,22 +34,26 @@ public class RuKeram {
 
     public List<SourceData> parsing(List<String> ll) throws IOException {
         for (String url : ll) {
-            LoadFromSite loadFromSite = new LoadFromSite();
-            String store = loadFromSite.getStore(url);
-            String page = LoadFromSite.download(url, ll.indexOf(url));
-            Date date = Profile.getDate();
-            Document doc = Jsoup.parse(page);
-            Elements pr = doc.getElementsByClass("content bottom_border");
-            Elements asd = pr.get(0).getElementsByClass("border");
-            for (Element item : asd) {
+            try {
 
-                Elements bOzonPrice = item.getElementsByClass("bOzonPrice");
-                Double price = Double.valueOf(bOzonPrice.get(0).getElementsByTag("span").get(0).getElementsByClass("eOzonPrice_main").html());
-                Elements top_zone = item.getElementsByClass("top_zone");
-                String offers = top_zone.get(0).getElementsByTag("a").get(1).getElementsByClass("name").html();
-//                System.out.println(offers);
-//                System.out.println(price);
-                listSource.add(new SourceData(store, offers, unit, price, date, category));
+                LoadFromSite loadFromSite = new LoadFromSite();
+                String store = loadFromSite.getStore(url);
+                String page = LoadFromSite.download(url, ll.indexOf(url));
+                Date date = Profile.getDate();
+                Document doc = Jsoup.parse(page);
+                Elements pr = doc.getElementsByClass("content bottom_border");
+                Elements asd = pr.get(0).getElementsByClass("border");
+                for (Element item : asd) {
+
+                    Elements bOzonPrice = item.getElementsByClass("bOzonPrice");
+                    Double price = Double.valueOf(bOzonPrice.get(0).getElementsByTag("span").get(0).getElementsByClass("eOzonPrice_main").html());
+                    Elements top_zone = item.getElementsByClass("top_zone");
+                    String offers = top_zone.get(0).getElementsByTag("a").get(1).getElementsByClass("name").html();
+
+                    listSource.add(new SourceData(store, offers, unit, price, date, category));
+                }
+            } catch (IOException | NumberFormatException e) {
+                System.out.println("Ошибка обработки Rukeram");
             }
 
         }

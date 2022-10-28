@@ -29,30 +29,34 @@ public class Paritet {
         return listSource;
     }
 
-
     public List<SourceData> parsing(List<String> ll) throws IOException {
         for (String url : ll) {
-            LoadFromSite loadFromSite = new LoadFromSite();
-            String store = loadFromSite.getStore(url);
-            Profile profile = new Profile();
-            Date date = profile.getDate();
+
+            try {
+                LoadFromSite loadFromSite = new LoadFromSite();
+                String store = loadFromSite.getStore(url);
+                Profile profile = new Profile();
+                Date date = profile.getDate();
 
 
-            Document doc = Jsoup.connect(url).get();
-            Element table = doc.select("table").get(0);
-            Elements rows = table.select("tr");
-            for (int i = 2; i < rows.size(); i++) {
-                Element row = rows.get(i);
-                Elements cols = row.select("td");
-                if (cols.get(1).text().length() > 1) {
+                Document doc = Jsoup.connect(url).get();
+                Element table = doc.select("table").get(0);
+                Elements rows = table.select("tr");
+                for (int i = 2; i < rows.size(); i++) {
+                    Element row = rows.get(i);
+                    Elements cols = row.select("td");
+                    if (cols.get(1).text().length() > 1) {
 
-                    String name = cols.get(1).text();
-                    String unit = cols.get(2).text();
-                    float price = Float.parseFloat(cols.get(4).text().replace("-", "."));
+                        String name = cols.get(1).text();
+                        String unit = cols.get(2).text();
+                        float price = Float.parseFloat(cols.get(4).text().replace("-", "."));
 
-                    listSource.add(new SourceData(store, name, unit, price, date, category));
+                        listSource.add(new SourceData(store, name, unit, price, date, category));
+                    }
                 }
 
+            } catch (IOException | NumberFormatException e) {
+                System.out.println("ошибка обработки Paritet");
             }
 
         }

@@ -35,23 +35,22 @@ public class OblCeram {
 
     public List<SourceData> parsing(List<String> ll) throws IOException {
         for (String url : ll) {
-            int i = ll.indexOf(url);
-            System.out.println(i);
-            LoadFromSite loadFromSite = new LoadFromSite();
-            String store = loadFromSite.getStore(url);
-            String page = LoadFromSite.download(url, ll.indexOf(url));
-            Date date = Profile.getDate();
-            Document doc = Jsoup.parse(page);
-            Elements items = doc.getElementsByClass("catalog-all-items-custom");
-            for (Element item : items) {
-                String offers = item.getElementsByClass("custom-h2").get(0).getElementsByTag("a").get(0).html();
-                String priceString = item.getElementsByClass("all-layout-center-price-wholesale").get(0).getElementsByClass("ruble").html();
-                Double price = Double.valueOf(priceString);
-//                System.out.println(offers);
-//                System.out.println(price);
+            try {
+                LoadFromSite loadFromSite = new LoadFromSite();
+                String store = loadFromSite.getStore(url);
+                String page = LoadFromSite.download(url, ll.indexOf(url));
+                Date date = Profile.getDate();
+                Document doc = Jsoup.parse(page);
+                Elements items = doc.getElementsByClass("catalog-all-items-custom");
+                for (Element item : items) {
+                    String offers = item.getElementsByClass("custom-h2").get(0).getElementsByTag("a").get(0).html();
+                    String priceString = item.getElementsByClass("all-layout-center-price-wholesale").get(0).getElementsByClass("ruble").html();
+                    Double price = Double.valueOf(priceString);
 
-
-                listSource.add(new SourceData(store, offers, unit, price, date, category));
+                    listSource.add(new SourceData(store, offers, unit, price, date, category));
+                }
+            } catch (IOException | NumberFormatException e) {
+                System.out.println("Ошибка обработки ОблКерам");;
             }
         }
         return listSource;

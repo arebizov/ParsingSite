@@ -33,7 +33,8 @@ public class Ccomplekt {
 
     public List<SourceData> parsing(List<String> ll) throws IOException {
         for (String url : ll) {
-            int i = ll.indexOf(url);
+
+            try{
 
             LoadFromSite loadFromSite = new LoadFromSite();
             String store = loadFromSite.getStore(url);
@@ -49,6 +50,9 @@ public class Ccomplekt {
                 System.out.println(offers);
 
                 listSource.add(new SourceData(store, offers, unit, price, date, category));
+            }
+        } catch (IOException | NumberFormatException e) {
+                System.out.println("Ошибка обработки CComplekt");;
             }
         }
         return listSource;
