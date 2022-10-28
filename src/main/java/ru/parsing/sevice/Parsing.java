@@ -155,10 +155,11 @@ public class Parsing {
 
             for(PriceHisory pr : uniqHistoryList ){
 
-                String hqlDeletePrice = "delete PriceHisory where storeId =:id and date =:date";
+                String hqlDeletePrice = "delete PriceHisory where storeId =:id and date =:date and offerId =:offerId";
                 Query queryDelete = session5.createQuery(hqlDeletePrice);
                 queryDelete.setParameter("id", pr.getStoreId());
                 queryDelete.setParameter("date", pr.getDate());
+                queryDelete.setParameter("offerId", pr.getOfferId());
                 queryDelete.executeUpdate();
             }
 
