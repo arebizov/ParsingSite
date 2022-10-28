@@ -37,7 +37,7 @@ public class TnMSK {
                 Document doc = Jsoup.parse(page);
                 String offers = doc.getElementsByTag("h1").get(0).childNodes().get(0).childNode(0).toString();
                 String priceStr = doc.getElementsByClass("product-info__price bold mb-3").get(0).getElementsByAttributeValue("class", "woocommerce-Price-amount amount").get(0).childNodes().get(0).childNode(0).toString();
-                Double price = Double.valueOf(priceStr.replace(" ", ""));
+                Double price = Double.valueOf(priceStr.replace(" ", ""))*10;
 
                 listSource.add(new SourceData(store, offers, unit, price, date, category));
             } catch (IOException | NumberFormatException e) {

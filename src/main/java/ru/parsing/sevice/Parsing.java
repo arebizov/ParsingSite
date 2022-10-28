@@ -200,12 +200,12 @@ public class Parsing {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             UniqOffers that = (UniqOffers) o;
-            return storeID == that.storeID && offerName.equals(that.offerName) && unit.equals(that.unit);
+            return storeID == that.storeID && offerName.equals(that.offerName) && unit.equals(that.unit)&& unit.equals(that.category);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(storeID, offerName, unit);
+            return Objects.hash(storeID, offerName, unit, category);
         }
     }
 
