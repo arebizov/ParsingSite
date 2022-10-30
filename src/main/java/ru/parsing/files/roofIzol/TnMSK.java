@@ -1,4 +1,4 @@
-package ru.parsing.files.roof;
+package ru.parsing.files.roofIzol;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Tstn {
+public class TnMSK {
     public List<SourceData> listSource = new ArrayList<>();
     private static int category = 1285;
     private static String unit = "м2";
@@ -20,7 +20,7 @@ public class Tstn {
 
 
         List<String> pagesList = new ArrayList();
-        pagesList.add("https://www.tstn.ru/product/material-krovelnyy-tekhnonikol-tekhnoelast-epp/");
+        pagesList.add("https://tn-msk.ru/kat/texnoelast/texnoelast-epp/");
 
         List<SourceData> listSource = parsing(pagesList);
         return listSource;
@@ -30,20 +30,18 @@ public class Tstn {
     public List<SourceData> parsing(List<String> ll) throws IOException {
         for (String url : ll) {
             try {
-
                 LoadFromSite loadFromSite = new LoadFromSite();
                 String store = loadFromSite.getStore(url);
                 String page = LoadFromSite.download(url, ll.indexOf(url));
                 Date date = Profile.getDate();
                 Document doc = Jsoup.parse(page);
-                String offers = doc.getElementsByTag("h1").html();
-                String priceStr = doc.getElementsByAttributeValue("itemprop", "price").attr("content");
-
-                Double price = Double.valueOf(priceStr.replace(" ", ""));
+                String offers = doc.getElementsByTag("h1").get(0).childNodes().get(0).childNode(0).toString();
+                String priceStr = doc.getElementsByClass("product-info__price bold mb-3").get(0).getElementsByAttributeValue("class", "woocommerce-Price-amount amount").get(0).childNodes().get(0).childNode(0).toString();
+                Double price = Double.valueOf(priceStr.replace(" ", ""))*10;
 
                 listSource.add(new SourceData(store, offers, unit, price, date, category));
             } catch (IOException | NumberFormatException e) {
-                System.out.println("Ошибка обработки Tstn");
+                System.out.println("Ошибка обработки TnMSK");
             }
         }
 

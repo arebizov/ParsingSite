@@ -52,7 +52,7 @@ public class SeleniumTest {
         options.addArguments("--start-maximized", "--headless", "--window-size=2560,1440","--ignore-certificate-errors","--disable-extensions","--disable-dev-shm-usage");
         options.addArguments("--log-level=3");
 
-        driver.get("https://market.yandex.ru/product--shtukaturka-knauf-rotband-30-kg/1863692361?cpa=1");
+        driver.get("https://leroymerlin.ru/product/shtukaturka-gipsovaya-knauf-rotband-30-kg-10073940/");
 
         WebElement footer = driver.findElement(By.tagName("footer"));
         Duration fromChar1 = Duration.parse("P2DT3H4M");

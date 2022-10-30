@@ -1,7 +1,9 @@
-package ru.parsing.files.roof;
+package ru.parsing.files.heater;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import ru.parsing.SourceData;
 import ru.parsing.sevice.LoadFromSite;
 import ru.parsing.sevice.Profile;
@@ -11,43 +13,46 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ShopTn {
+
+public class VentoRus {
+
+    private static int category = 1557;
+    private static String unit = "m3";
+
     public List<SourceData> listSource = new ArrayList<>();
-    private static int category = 1285;
-    private static String unit = "м2";
+
 
     public List<SourceData> parsData() throws IOException {
 
-
         List<String> pagesList = new ArrayList();
-        pagesList.add("https://shop.tn.ru/tehnojelast-jepp-10h1-m");
-
+        pagesList.add("https://neotreid.ru/bazaltovaya-teploizolyaciya/rockwool/rokvul-venti-batts");
         List<SourceData> listSource = parsing(pagesList);
         return listSource;
-
     }
 
     public List<SourceData> parsing(List<String> ll) throws IOException {
         for (String url : ll) {
-            try {
 
-                LoadFromSite loadFromSite = new LoadFromSite();
-                String store = loadFromSite.getStore(url);
+            try {
                 String page = LoadFromSite.download(url, ll.indexOf(url));
+                LoadFromSite loadFromSite = new LoadFromSite();
                 Date date = Profile.getDate();
                 Document doc = Jsoup.parse(page);
+                String store = loadFromSite.getStore(url);
+
                 String offers = doc.getElementsByTag("h1").html();
-                String priceStr = doc.getElementsByAttributeValue("class", "js-first-unit-price").text();//.get(0).childNodes().get(0).childNode(0).toString();
-                Double price = Double.valueOf(priceStr.replace(" ", ""));
-//            System.out.println(offers);
-//            System.out.println(priceStr);
+                String priceStr = doc.getElementsByAttributeValue("class", "element_full_price_int").text().replace(" ", "").replace(",", ".");
+                Double price = Double.valueOf(priceStr) * 4.166666;
+                System.out.println(offers);
+                System.out.println(price);
 
                 listSource.add(new SourceData(store, offers, unit, price, date, category));
-            } catch (IOException | NumberFormatException e) {
-                System.out.println("Ошибка обработки ShopTn");
-            }
-        }
 
+            } catch (IOException | NumberFormatException e) {
+                System.out.println("ошибка обработки Paritet");
+            }
+
+        }
         return listSource;
     }
 

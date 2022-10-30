@@ -22,7 +22,12 @@ public class Test {
         Test test = new Test();
 
         List<String> pagesList = new ArrayList();
-        pagesList.add("https://shop.tn.ru/tehnojelast-jepp-10h1-m");
+        pagesList.add("https://tskdiplomat.ru/catalog/izolyatsionnye_materialy/heat_insulation/mineral_wool_on_the_basis_of_basalt_/rockwool_venti_batts_1000kh600kh50.html");
+
+        http:
+//www.cbr.ru/scripts/XML_daily.asp
+//        pagesList.add("http://s-paritet.ru/price/");
+
 
         test.parsing(pagesList);
     }
@@ -35,23 +40,40 @@ public class Test {
 
     public List<SourceData> parsing(List<String> ll) throws IOException {
         for (String url : ll) {
-            LoadFromSite loadFromSite = new LoadFromSite();
-            String store = loadFromSite.getStore(url);
-            String page = LoadFromSite.download(url, ll.indexOf(url));
 
-            Date date = Profile.getDate();
+            try {
 
-            Document doc = Jsoup.parse(page);
+
+                LoadFromSite loadFromSite = new LoadFromSite();
+                String store = loadFromSite.getStore(url);
+                String page = LoadFromSite.download(url, ll.indexOf(url));
+
+                Date date = Profile.getDate();
+
+                Document doc = Jsoup.parse(page);
 //            System.out.println(doc);
-            String offers = doc.getElementsByTag("h1").html();
-            String priceStr = doc.getElementsByAttributeValue("class", "js-first-unit-price").text();//.get(0).childNodes().get(0).childNode(0).toString();
-            Double price = Double.valueOf(priceStr.replace(" ", ""));
-            System.out.println(offers);
-            System.out.println(priceStr);
-//            Elements items = doc.getElementsByClass("col-lg-6 pl-md-0");
-//            String offers = items.get(0).getElementsByAttributeValue("itemprop", "name").html();
-//            String priceStr = items.get(0).getElementsByAttributeValue("class", "current_price").html();
+                String offers = doc.getElementsByTag("h1").html();
+                String priceStr = doc.getElementsByClass("smallElementToolsContainer").get(0).getElementsByClass("fullPrice_number").text();//.get(0).getElementsByClass("price").get(0).getElementsByAttributeValue("itemprop", "price").attr("content");
+                Double price = Double.valueOf(priceStr.replace(" ", ""))*4.166666;
+                System.out.println(offers);
+                System.out.println(price);
+//            System.out.println(course);
+//                Elements items = doc.getElementsByClass("tab-content").select("table").get(0).getElementsByAttributeValue("border","1");
+                //
+//
+//                String prEuroString = doc.getElementsByClass("_specs_item").get(4).getElementsByClass("_specs_val").text().split("")[1];
+//                Double priceEuro = Double.valueOf(prEuroString);
+//                Double price = course * priceEuro;
+//                System.out.println(price);
+//                System.out.println(offers);
+            } catch (IOException | NumberFormatException e) {
+                System.out.println("jkjgkjgjkg");
+                ;
+            }
+//            String priceStr = doc.getElementsByAttributeValue("itemprop", "price").attr("content");
 //            Double price = Double.valueOf(priceStr);
+//            System.out.println(offers);
+//            System.out.println(priceStr);
 
 
         }

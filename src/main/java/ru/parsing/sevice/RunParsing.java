@@ -4,15 +4,24 @@ import ru.parsing.SourceData;
 import ru.parsing.files.beton.Paritet;
 import ru.parsing.files.brick.*;
 import ru.parsing.files.cable.CableRu;
+import ru.parsing.files.cable.Ekc;
 import ru.parsing.files.cable.Etm;
+import ru.parsing.files.cable.GlavSnabCable;
+
 import ru.parsing.files.docExcel.SourceExcel;
+import ru.parsing.files.heater.GlavSnabHeater;
+import ru.parsing.files.heater.Neotreid;
+import ru.parsing.files.heater.StParHeater;
+import ru.parsing.files.heater.TskdiplomatHeater;
+import ru.parsing.files.limestone.MgStone;
+import ru.parsing.files.membrane.GlavSnabWaterProof;
+import ru.parsing.files.membrane.Tskdiplomat;
 import ru.parsing.files.paving.*;
 import ru.parsing.files.pipes.HidroControl;
 import ru.parsing.files.pipes.KermiMarket;
 import ru.parsing.files.pipes.Teremonline;
-import ru.parsing.files.roof.*;
-import ru.parsing.files.waterProofing.GlavSnabWaterProof;
-import ru.parsing.files.waterProofing.Tskdiplomat;
+import ru.parsing.files.roofIzol.*;
+import ru.parsing.files.stoneware.GvavSnabStoneWare;
 
 import java.io.IOException;
 import java.util.List;
@@ -42,6 +51,15 @@ public class RunParsing {
         List<SourceData> listEtm = etm.parsData();
         parsing.pars(listEtm);
 
+
+        Ekc ekc = new Ekc();
+        List<SourceData> listEkc = ekc.parsData();
+        parsing.pars(listEkc);
+
+        GlavSnabCable glavSnabCable = new GlavSnabCable();
+        List<SourceData> listGvavSnabCable = glavSnabCable.parsData();
+        parsing.pars(listGvavSnabCable);
+
         //Brick
 
         RuKeram ruKeram = new RuKeram();
@@ -68,6 +86,10 @@ public class RunParsing {
         Ccomplekt ccomplekt= new Ccomplekt();
         List<SourceData> listCcomlect= ccomplekt.parsData();
         parsing.pars(listCcomlect);
+
+        StPar stPar= new StPar();
+        List<SourceData> listStPar= stPar.parsData();
+        parsing.pars(listStPar);
 
 
         //Whaterproofing
@@ -143,6 +165,36 @@ public class RunParsing {
         List<SourceData> listTstn =tstn.parsData();
         parsing.pars(listTstn);
 
+
+        //LimeStone
+
+        MgStone mgStone= new MgStone();
+        List<SourceData> listMgStone =mgStone.parsData();
+        parsing.pars(listMgStone);
+
+         //StoneWare
+
+        GvavSnabStoneWare gvavSnabStoneWare  = new GvavSnabStoneWare();
+        List<SourceData> listGvavSnabStoneWare =gvavSnabStoneWare.parsData();
+        parsing.pars(listGvavSnabStoneWare);
+
+        //heater
+
+        Neotreid neotreid = new Neotreid();
+        List<SourceData> listNeotreid =neotreid.parsData();
+        parsing.pars(listNeotreid);
+
+        GlavSnabHeater glavSnabHeater = new GlavSnabHeater();
+        List<SourceData> listGlavSnabHeater =glavSnabHeater.parsData();
+        parsing.pars(listGlavSnabHeater);
+
+        StParHeater stParHeater = new StParHeater();
+        List<SourceData> listStParHeater =stParHeater.parsData();
+        parsing.pars(listStParHeater);
+
+        TskdiplomatHeater tskdiplomatHeater = new TskdiplomatHeater();
+        List<SourceData> listSTskdiplomatHeater =tskdiplomatHeater.parsData();
+        parsing.pars(listSTskdiplomatHeater);
 
     }
 }
