@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class GvavSnabStoneWare {
+public class EstimaStoneWare {
 
     public List<SourceData> listSourceAll = new ArrayList<>();
 
@@ -21,8 +21,8 @@ public class GvavSnabStoneWare {
     public List<SourceData> parsData() throws IOException {
 
         List<String> pagesList = new ArrayList();
-        pagesList.add("https://glavsnab.net/keramogranit-estima-traffic-tf03-600h600-mm-tem-seriy.html\n");
-        pagesList.add("https://glavsnab.net/keramogranit-estima-traffic-tf-03-600h1200-mm.html");
+        pagesList.add("https://msk.estima.ru/catalog/gabbro/gb03_60x60x10_nepol_rekt_keramicheskiy_granit/");
+        pagesList.add("https://msk.estima.ru/catalog/gabbro/gb03_60x120x10_nepol_rekt_keramicheskiy_granit/");
         List<SourceData> listSource = parsing(pagesList);
         return listSource;
     }
@@ -36,14 +36,14 @@ public class GvavSnabStoneWare {
             Date date = Profile.getDate();
 
             Document doc = Jsoup.parse(page);
-            String offers = doc.getElementsByTag("h1").html();
-            String priceStr = doc.getElementsByClass("product-prices clearfix").get(0).getElementsByAttributeValue("itemprop", "price").attr("content");
-            Double price = Double.valueOf(priceStr);
+                String offers = doc.getElementsByTag("h1").html();
+                String priceStr = doc.getElementsByClass("product-price-value").get(0).child(0).child(0).text();//.get(0).getElementsByClass("price").get(0).getElementsByAttributeValue("itemprop", "price").attr("content");
+                Double price = Double.valueOf(priceStr.replace(" ", ""));
 //            System.out.println(offers);
 //            System.out.println(price);
             listSourceAll.add(new SourceData(store, offers, unit, price, date, category));
         } catch (IOException | NumberFormatException e) {
-                System.out.println("Ошибка обработки GlavsnabPaving");;
+                System.out.println("Ошибка обработки EstimaStone");;
             }
         }
 

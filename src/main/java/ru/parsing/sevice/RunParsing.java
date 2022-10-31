@@ -21,6 +21,7 @@ import ru.parsing.files.pipes.HidroControl;
 import ru.parsing.files.pipes.KermiMarket;
 import ru.parsing.files.pipes.Teremonline;
 import ru.parsing.files.roofIzol.*;
+import ru.parsing.files.stoneware.EstimaStoneWare;
 import ru.parsing.files.stoneware.GvavSnabStoneWare;
 
 import java.io.IOException;
@@ -177,6 +178,11 @@ public class RunParsing {
         GvavSnabStoneWare gvavSnabStoneWare  = new GvavSnabStoneWare();
         List<SourceData> listGvavSnabStoneWare =gvavSnabStoneWare.parsData();
         parsing.pars(listGvavSnabStoneWare);
+
+
+        EstimaStoneWare estimaStoneWare  = new EstimaStoneWare();
+        List<SourceData> listEstimaStoneWare =estimaStoneWare.parsData();
+        parsing.pars(listEstimaStoneWare);
 
         //heater
 

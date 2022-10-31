@@ -14,7 +14,7 @@ import java.util.List;
 public class TskdiplomatHeater {
     public List<SourceData> listSourceAll = new ArrayList<>();
 
-    private static int category = 224461903;
+    private static int category = 1285;
     private static String unit = "М3";
 
     public List<SourceData> parsData() throws IOException {

@@ -22,7 +22,7 @@ public class Test {
         Test test = new Test();
 
         List<String> pagesList = new ArrayList();
-        pagesList.add("https://tskdiplomat.ru/catalog/izolyatsionnye_materialy/heat_insulation/mineral_wool_on_the_basis_of_basalt_/rockwool_venti_batts_1000kh600kh50.html");
+        pagesList.add("https://msk.estima.ru/catalog/gabbro/gb03_60x60x10_nepol_rekt_keramicheskiy_granit/");
 
         http:
 //www.cbr.ru/scripts/XML_daily.asp
@@ -53,8 +53,8 @@ public class Test {
                 Document doc = Jsoup.parse(page);
 //            System.out.println(doc);
                 String offers = doc.getElementsByTag("h1").html();
-                String priceStr = doc.getElementsByClass("smallElementToolsContainer").get(0).getElementsByClass("fullPrice_number").text();//.get(0).getElementsByClass("price").get(0).getElementsByAttributeValue("itemprop", "price").attr("content");
-                Double price = Double.valueOf(priceStr.replace(" ", ""))*4.166666;
+                String priceStr = doc.getElementsByClass("product-price-value").get(0).child(0).child(0).text();//.get(0).getElementsByClass("price").get(0).getElementsByAttributeValue("itemprop", "price").attr("content");
+                Double price = Double.valueOf(priceStr.replace(" ", ""));
                 System.out.println(offers);
                 System.out.println(price);
 //            System.out.println(course);

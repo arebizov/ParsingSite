@@ -15,7 +15,7 @@ public class MgStone {
 
     public List<SourceData> listSource = new ArrayList<>();
 
-    private static int category = 1557;
+    private static int category = 46554423;
     private static String unit = "m2";
 
     public List<SourceData> parsData() throws IOException {

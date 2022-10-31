@@ -19,7 +19,7 @@ public class Paritet {
 
     public List<SourceData> listSource = new ArrayList<>();
 
-    private static int category = 17286;
+    private static int category = 1449;
 
     public List<SourceData> parsData() throws IOException {
 
