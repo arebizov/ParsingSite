@@ -52,14 +52,14 @@ public class SeleniumTest {
         options.addArguments("--start-maximized", "--headless", "--window-size=2560,1440","--ignore-certificate-errors","--disable-extensions","--disable-dev-shm-usage");
         options.addArguments("--log-level=3");
 
-        driver.get("https://leroymerlin.ru/product/shtukaturka-gipsovaya-knauf-rotband-30-kg-10073940/");
+        driver.get("https://moskeram.ru/catalog/kirpich/stroitelnyy_kirpich/stroitelnyy-polnotelyy-m150-vorotinsky.html");
 
-        WebElement footer = driver.findElement(By.tagName("footer"));
+//        WebElement footer = driver.findElement(By.tagName("footer"));
         Duration fromChar1 = Duration.parse("P2DT3H4M");
         driver.manage().timeouts().implicitlyWait(fromChar1);
-        int deltaY = footer.getRect().y;
+//        int deltaY = footer.getRect().y;
         new Actions(driver)
-                .scrollByAmount(100, deltaY)
+                .scrollByAmount(100, 10000)
                 .perform();
         driver.manage().timeouts().implicitlyWait(fromChar1);
 

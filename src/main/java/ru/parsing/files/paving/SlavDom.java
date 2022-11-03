@@ -17,6 +17,7 @@ public class SlavDom {
 
     private static int category = 10049;
     private static String unit = "m2";
+    public String store;
 
     public List<SourceData> parsData() throws IOException {
 
@@ -35,7 +36,7 @@ public class SlavDom {
 
 
                 LoadFromSite loadFromSite = new LoadFromSite();
-                String store = loadFromSite.getStore(url);
+                store = loadFromSite.getStore(url);
                 String page = LoadFromSite.download(url, ll.indexOf(url));
                 Date date = Profile.getDate();
                 Document doc = Jsoup.parse(page);
@@ -46,8 +47,8 @@ public class SlavDom {
 //                System.out.println(offers);
 
                 listSource.add(new SourceData(store, offers, unit, price, date, category));
-            } catch (IOException | NumberFormatException e) {
-                System.out.println("Ошибка обработки SlavDom");;
+            } catch (IOException | NumberFormatException | NullPointerException | IndexOutOfBoundsException e) {
+                System.out.println("ошибка обработки " + store + " " + category);
             }
         }
 

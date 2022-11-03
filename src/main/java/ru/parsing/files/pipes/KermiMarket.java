@@ -17,6 +17,7 @@ public class KermiMarket {
 
     private static int category = 7189;
     private static String unit = "М";
+    public String store;
 
     public List<SourceData> parsData() throws IOException {
 
@@ -33,7 +34,7 @@ public class KermiMarket {
             try {
                 LoadFromSite loadFromSite = new LoadFromSite();
                 String page = LoadFromSite.download(url, ll.indexOf(url));
-                String store = loadFromSite.getStore(url);
+                store = loadFromSite.getStore(url);
                 Date date = Profile.getDate();
 
                 Document doc = Jsoup.parse(page);
@@ -43,8 +44,8 @@ public class KermiMarket {
 //                System.out.println(priceStr);
 //                System.out.println(offers);
                 listSourceAll.add(new SourceData(store, offers, unit, price, date, category));
-            } catch (IOException | NumberFormatException e) {
-                System.out.println("Ошибка обработки KermiMarket");
+            } catch (IOException | NumberFormatException | NullPointerException | IndexOutOfBoundsException e) {
+                System.out.println("ошибка обработки " + store + " " + category);
                 ;
             }
         }

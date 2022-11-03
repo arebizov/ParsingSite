@@ -22,13 +22,7 @@ public class Test {
         Test test = new Test();
 
         List<String> pagesList = new ArrayList();
-        pagesList.add("https://msk.estima.ru/catalog/gabbro/gb03_60x60x10_nepol_rekt_keramicheskiy_granit/");
-
-        http:
-//www.cbr.ru/scripts/XML_daily.asp
-//        pagesList.add("http://s-paritet.ru/price/");
-
-
+        pagesList.add("https://a-b-z.ru/asfalt-s-dostavkoj-cena-za-tonnu/index.html");
         test.parsing(pagesList);
     }
 
@@ -50,25 +44,22 @@ public class Test {
 
                 Date date = Profile.getDate();
 
-                Document doc = Jsoup.parse(page);
-//            System.out.println(doc);
-                String offers = doc.getElementsByTag("h1").html();
-                String priceStr = doc.getElementsByClass("product-price-value").get(0).child(0).child(0).text();//.get(0).getElementsByClass("price").get(0).getElementsByAttributeValue("itemprop", "price").attr("content");
-                Double price = Double.valueOf(priceStr.replace(" ", ""));
-                System.out.println(offers);
-                System.out.println(price);
-//            System.out.println(course);
-//                Elements items = doc.getElementsByClass("tab-content").select("table").get(0).getElementsByAttributeValue("border","1");
-                //
-//
-//                String prEuroString = doc.getElementsByClass("_specs_item").get(4).getElementsByClass("_specs_val").text().split("")[1];
-//                Double priceEuro = Double.valueOf(prEuroString);
-//                Double price = course * priceEuro;
-//                System.out.println(price);
-//                System.out.println(offers);
+
+                Document doc = Jsoup.connect(url).get();
+                Element table = doc.select("table").get(3);
+                System.out.println(table);
+                Elements rows = table.select("tr");
+                for (int i = 1; i < rows.size(); i++) {
+                    Element row = rows.get(i);
+                    Elements cols = row.select("td");
+
+                    String offers = cols.get(0).text();
+                    String priceStr = cols.get(1).text();
+                    Double price = Double.valueOf(priceStr);
+                }
+
             } catch (IOException | NumberFormatException e) {
-                System.out.println("jkjgkjgjkg");
-                ;
+                System.out.println("Ошибка парсинга Test");
             }
 //            String priceStr = doc.getElementsByAttributeValue("itemprop", "price").attr("content");
 //            Double price = Double.valueOf(priceStr);

@@ -18,6 +18,7 @@ public class TheBrick {
 
     private static int category = 10049;
     private static String unit = "m2";
+    public String store;
 
     public List<SourceData> parsData() throws IOException {
 
@@ -35,7 +36,7 @@ public class TheBrick {
             try {
 
                 LoadFromSite loadFromSite = new LoadFromSite();
-                String store = loadFromSite.getStore(url);
+                store = loadFromSite.getStore(url);
                 String page = LoadFromSite.download(url, ll.indexOf(url));
                 Date date = Profile.getDate();
                 Document doc = Jsoup.parse(page);
@@ -44,8 +45,8 @@ public class TheBrick {
                 Double price = Double.valueOf(priceStr.replace(" ", ""));
 
                 listSource.add(new SourceData(store, offers, unit, price, date, category));
-            } catch (IOException | NumberFormatException e) {
-                System.out.println("Ошибка обработки TheBrick");
+            } catch (IOException | NumberFormatException | NullPointerException | IndexOutOfBoundsException e) {
+                System.out.println("ошибка обработки " + store + " " + category);
                 ;
             }
         }

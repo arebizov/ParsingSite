@@ -19,6 +19,7 @@ public class SDvor {
 
     private static int category = 1557;
     private static String unit = "шт";
+    public String store;
 
     public List<SourceData> parsData() throws IOException {
 
@@ -35,7 +36,7 @@ public class SDvor {
         for (String url : ll) {
             try {
                 LoadFromSite loadFromSite = new LoadFromSite();
-                String store = loadFromSite.getStore(url);
+                store = loadFromSite.getStore(url);
                 Date date = Profile.getDate();
                 Document doc = Jsoup.connect(url).get();
                 String offers = doc.getElementsByTag("h1").html().replace("&nbsp;", "");
@@ -45,7 +46,7 @@ public class SDvor {
 
 
             } catch (IOException | NumberFormatException e) {
-                System.out.println("Ошибка оббработки Sdvor");
+                System.out.println("ошибка обработки " + store + " " + category);
             }
         }
         return listSource;

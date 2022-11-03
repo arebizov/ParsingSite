@@ -17,6 +17,7 @@ public class EstimaStoneWare {
 
     private static int category = 7140;
     private static String unit = "M2";
+    public String store;
 
     public List<SourceData> parsData() throws IOException {
 
@@ -29,21 +30,21 @@ public class EstimaStoneWare {
 
     public List<SourceData> parsing(List<String> ll) throws IOException {
         for (String url : ll) {
-            try{
-            LoadFromSite loadFromSite = new LoadFromSite();
-            String page = LoadFromSite.download(url, ll.indexOf(url));
-            String store = loadFromSite.getStore(url);
-            Date date = Profile.getDate();
+            try {
+                LoadFromSite loadFromSite = new LoadFromSite();
+                String page = LoadFromSite.download(url, ll.indexOf(url));
+                store = loadFromSite.getStore(url);
+                Date date = Profile.getDate();
 
-            Document doc = Jsoup.parse(page);
+                Document doc = Jsoup.parse(page);
                 String offers = doc.getElementsByTag("h1").html();
                 String priceStr = doc.getElementsByClass("product-price-value").get(0).child(0).child(0).text();//.get(0).getElementsByClass("price").get(0).getElementsByAttributeValue("itemprop", "price").attr("content");
                 Double price = Double.valueOf(priceStr.replace(" ", ""));
 //            System.out.println(offers);
 //            System.out.println(price);
-            listSourceAll.add(new SourceData(store, offers, unit, price, date, category));
-        } catch (IOException | NumberFormatException e) {
-                System.out.println("Ошибка обработки EstimaStone");;
+                listSourceAll.add(new SourceData(store, offers, unit, price, date, category));
+            } catch (IOException | NumberFormatException | NullPointerException | IndexOutOfBoundsException e) {
+                System.out.println("ошибка обработки" + store + " " + category);
             }
         }
 

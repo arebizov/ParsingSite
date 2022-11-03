@@ -19,6 +19,7 @@ public class StPar {
 
     private static int category = 1557;
     private static String unit = "шт";
+    public String store;
 
     public List<SourceData> parsData() throws IOException {
 
@@ -28,9 +29,6 @@ public class StPar {
         pagesList.add("https://st-par.ru/catalog/2_01_kirpich_stroitelnyy/21301/");
         pagesList.add("https://st-par.ru/catalog/kirpich-oblicovochnyj/2652/");
         pagesList.add("https://st-par.ru/catalog/kirpich-oblicovochnyj/1372/");
-
-
-
 
         List<SourceData> listSource = parsing(pagesList);
         return listSource;
@@ -43,7 +41,7 @@ public class StPar {
             try {
 
                 LoadFromSite loadFromSite = new LoadFromSite();
-                String store = loadFromSite.getStore(url);
+                store = loadFromSite.getStore(url);
                 String page = LoadFromSite.download(url, ll.indexOf(url));
                 Date date = Profile.getDate();
                 Document doc = Jsoup.connect(url).get();
@@ -51,13 +49,13 @@ public class StPar {
                 String offers = doc.getElementsByTag("h1").html();
                 String priceStr = doc.getElementsByAttributeValue("itemprop", "price").attr("content");
                 Double price = Double.valueOf(priceStr);
-                System.out.println(offers);
-                System.out.println(priceStr);
+//                System.out.println(offers);
+//                System.out.println(priceStr);
 
                 listSource.add(new SourceData(store, offers, unit, price, date, category));
 
-            } catch (IOException | NumberFormatException e) {
-                System.out.println("Ошибка обработки CComplekt");
+            } catch (IOException | NumberFormatException | NullPointerException | IndexOutOfBoundsException e) {
+                System.out.println("ошибка обработки " + store + " " + category);
                 ;
             }
         }

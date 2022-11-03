@@ -19,6 +19,7 @@ public class Kirpich {
 
     private static int category = 1557;
     private static String unit = "шт";
+    public String store;
 
     public List<SourceData> parsData() throws IOException {
 
@@ -36,27 +37,26 @@ public class Kirpich {
 
     public List<SourceData> parsing(List<String> ll) throws IOException {
         for (String url : ll) {
-            try{
+            try {
 
-            LoadFromSite loadFromSite = new LoadFromSite();
-            String store = loadFromSite.getStore(url);
-            String page = LoadFromSite.download(url, ll.indexOf(url));
-            Date date = Profile.getDate();
-            Document doc = Jsoup.parse(page);
-            Elements items = doc.getElementsByClass("single-card__main");
-            for (Element item : items) {
-                String offers = item.getElementsByClass("popup-card__title").get(0).childNodes().get(0).toString().trim();
-                String priceStr = item.getElementsByAttributeValue("itemprop", "https://schema.org/price").get(0).tagName("meta").getElementsByTag("meta").attr("content").toString();
-                Double price = Double.valueOf(priceStr);
+                LoadFromSite loadFromSite = new LoadFromSite();
+                store = loadFromSite.getStore(url);
+                String page = LoadFromSite.download(url, ll.indexOf(url));
+                Date date = Profile.getDate();
+                Document doc = Jsoup.parse(page);
+                Elements items = doc.getElementsByClass("single-card__main");
+                for (Element item : items) {
+                    String offers = item.getElementsByClass("popup-card__title").get(0).childNodes().get(0).toString().trim();
+                    String priceStr = item.getElementsByAttributeValue("itemprop", "https://schema.org/price").get(0).tagName("meta").getElementsByTag("meta").attr("content").toString();
+                    Double price = Double.valueOf(priceStr);
 //                System.out.println(offers);
 //                System.out.println(price);
 
 
-
-                listSource.add(new SourceData(store, offers, unit, price, date, category));
-            }
-        } catch (IOException | NumberFormatException e) {
-                System.out.println("Ошибка обработки Kirpich");;
+                    listSource.add(new SourceData(store, offers, unit, price, date, category));
+                }
+            } catch (IOException | NumberFormatException | NullPointerException | IndexOutOfBoundsException e) {
+                System.out.println("ошибка обработки " + store + " " + category);
             }
         }
         return listSource;

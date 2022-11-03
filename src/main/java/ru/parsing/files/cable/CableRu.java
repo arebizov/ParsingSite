@@ -18,6 +18,7 @@ public class CableRu {
 
     private static int category = 1389;
     private static String unit = "М";
+    public String store;
 
     public List<SourceData> parsData() throws IOException {
 
@@ -33,7 +34,7 @@ public class CableRu {
             try {
                 LoadFromSite loadFromSite = new LoadFromSite();
                 String page = LoadFromSite.download(url, ll.indexOf(url));
-                String store = loadFromSite.getStore(url);
+                store = loadFromSite.getStore(url);
                 Date date = Profile.getDate();
 
                 Document doc = Jsoup.parse(page);
@@ -44,8 +45,8 @@ public class CableRu {
                     String offers = pr.getElementsByAttributeValue("name", "item_name").val();
                     listSourceAll.add(new SourceData(store, offers, unit, price, date, category));
                 }
-            } catch (IOException | NumberFormatException e) {
-                System.out.println("Ошибка обработки Cable");
+            } catch (IOException | NumberFormatException |NullPointerException| IndexOutOfBoundsException e) {
+                System.out.println("ошибка обработки " + store + " " + category);
             }
         }
 

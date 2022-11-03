@@ -17,6 +17,7 @@ public class GlavSnabWaterProof {
 
     private static int category = 224461903;
     private static String unit = "М";
+    public String store;
 
     public List<SourceData> parsData() throws IOException {
 
@@ -33,7 +34,7 @@ public class GlavSnabWaterProof {
             try {
                 LoadFromSite loadFromSite = new LoadFromSite();
                 String page = LoadFromSite.download(url, ll.indexOf(url));
-                String store = loadFromSite.getStore(url);
+                store = loadFromSite.getStore(url);
                 Date date = Profile.getDate();
                 Document doc = Jsoup.parse(page);
                 String offers = doc.getElementsByTag("h1").html();
@@ -42,8 +43,8 @@ public class GlavSnabWaterProof {
 //                System.out.println(offers);
 //                System.out.println(price);
                 listSourceAll.add(new SourceData(store, offers, unit, price, date, category));
-            } catch (IOException | NumberFormatException e) {
-                System.out.println("Ошибка обработки GlavSnabWaterProof");
+            } catch (IOException | NumberFormatException | NullPointerException | IndexOutOfBoundsException e) {
+                System.out.println("ошибка обработки " + store + " " + category);
             }
         }
         return listSourceAll;

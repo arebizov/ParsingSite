@@ -21,6 +21,8 @@ public class Neotreid {
 
     public List<SourceData> listSource = new ArrayList<>();
 
+    public String store;
+
 
     public List<SourceData> parsData() throws IOException {
 
@@ -38,9 +40,9 @@ public class Neotreid {
                 LoadFromSite loadFromSite = new LoadFromSite();
                 Date date = Profile.getDate();
                 Document doc = Jsoup.parse(page);
-                String store = loadFromSite.getStore(url);
+                store = loadFromSite.getStore(url);
 
-                Elements table = doc.getElementsByClass("tab-content").select("table").get(0).getElementsByAttributeValue("border","1");
+                Elements table = doc.getElementsByClass("tab-content").select("table").get(0).getElementsByAttributeValue("border", "1");
                 Elements rows = table.select("tr");
                 for (int i = 1; i < rows.size(); i++) {
                     Element row = rows.get(i);
@@ -48,18 +50,18 @@ public class Neotreid {
                     if (cols.get(1).text().length() > 1) {
 
                         String offers = cols.get(1).text();
-                        String priceStr = cols.get(7).text().replace(" ","").replace(",",".");
-                        Double  price = Double.valueOf(priceStr);
-                        System.out.println(offers);
-                        System.out.println(price);
+                        String priceStr = cols.get(7).text().replace(" ", "").replace(",", ".");
+                        Double price = Double.valueOf(priceStr);
+//                        System.out.println(offers);
+//                        System.out.println(price);
 
 
                         listSource.add(new SourceData(store, offers, unit, price, date, category));
                     }
                 }
 
-            } catch (IOException | NumberFormatException e) {
-                System.out.println("ошибка обработки Paritet");
+            } catch (IOException | NumberFormatException | NullPointerException | IndexOutOfBoundsException e) {
+                System.out.println("ошибка обработки " + store + " " + category);
             }
 
         }

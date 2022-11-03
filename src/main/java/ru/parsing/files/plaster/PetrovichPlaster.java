@@ -16,6 +16,7 @@ public class PetrovichPlaster {
 
     private static int category = 1447;
     private static String unit = "кг";
+    public String store;
 
     public List<SourceData> parsData() throws IOException {
 
@@ -33,18 +34,19 @@ public class PetrovichPlaster {
             try {
 
                 LoadFromSite loadFromSite = new LoadFromSite();
-                String store = loadFromSite.getStore(url);
+                store = loadFromSite.getStore(url);
                 String page = LoadFromSite.download(url, ll.indexOf(url));
                 Date date = Profile.getDate();
                 Document doc = Jsoup.parse(page);
                 String offers = doc.getElementsByTag("h1").html();
                 String priceStr = doc.getElementsByClass("price-details").get(0).getElementsByAttributeValue("data-test", "product-gold-price").get(0).childNodes().get(0).toString();
-                Double price = Double.valueOf(priceStr.replace(" ", ""));
-                System.out.println(priceStr);
+                Double price = Double.valueOf(priceStr.replace(" ", "")) / 30;
+
+//                System.out.println(priceStr);
 
                 listSource.add(new SourceData(store, offers, unit, price, date, category));
-            } catch (IOException | NumberFormatException e) {
-                System.out.println("Ошибка обработки PetrovichPlaster");
+            } catch (IOException | NumberFormatException | NullPointerException | IndexOutOfBoundsException e) {
+                System.out.println("ошибка обработки " + store + " " + category);
             }
         }
 

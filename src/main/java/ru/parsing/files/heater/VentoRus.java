@@ -18,6 +18,7 @@ public class VentoRus {
 
     private static int category = 1285;
     private static String unit = "m3";
+    public String store;
 
     public List<SourceData> listSource = new ArrayList<>();
 
@@ -38,20 +39,19 @@ public class VentoRus {
                 LoadFromSite loadFromSite = new LoadFromSite();
                 Date date = Profile.getDate();
                 Document doc = Jsoup.parse(page);
-                String store = loadFromSite.getStore(url);
+                store = loadFromSite.getStore(url);
 
                 String offers = doc.getElementsByTag("h1").html();
                 String priceStr = doc.getElementsByAttributeValue("class", "element_full_price_int").text().replace(" ", "").replace(",", ".");
                 Double price = Double.valueOf(priceStr) * 4.166666;
-                System.out.println(offers);
-                System.out.println(price);
+//                System.out.println(offers);
+//                System.out.println(price);
 
                 listSource.add(new SourceData(store, offers, unit, price, date, category));
 
-            } catch (IOException | NumberFormatException e) {
-                System.out.println("ошибка обработки Paritet");
+            } catch (IOException | NumberFormatException | NullPointerException | IndexOutOfBoundsException e) {
+                System.out.println("ошибка обработки " + store + " " + category);
             }
-
         }
         return listSource;
     }

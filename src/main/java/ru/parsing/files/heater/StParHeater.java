@@ -17,6 +17,7 @@ public class StParHeater {
 
     private static int category = 1285;
     private static String unit = "m3";
+    public String store;
 
     public List<SourceData> parsData() throws IOException {
 
@@ -40,7 +41,7 @@ public class StParHeater {
             try {
 
                 LoadFromSite loadFromSite = new LoadFromSite();
-                String store = loadFromSite.getStore(url);
+                store = loadFromSite.getStore(url);
                 String page = LoadFromSite.download(url, ll.indexOf(url));
                 Date date = Profile.getDate();
                 Document doc = Jsoup.connect(url).get();
@@ -48,17 +49,18 @@ public class StParHeater {
                 String offers = doc.getElementsByTag("h1").html();
                 String priceStr = doc.getElementsByAttributeValue("itemprop", "price").attr("content");
                 Double price = null;
-                if (ll.indexOf(url)<2) {
-                    price = Double.valueOf(priceStr)*4.16666;
+                if (ll.indexOf(url) < 2) {
+                    price = Double.valueOf(priceStr) * 4.16666;
+                } else {
+                    price = Double.valueOf(priceStr) * 3.0303;
                 }
-                else {price = Double.valueOf(priceStr)*3.0303;}
 //                System.out.println(offers);
 //                System.out.println(priceStr);
 
                 listSource.add(new SourceData(store, offers, unit, price, date, category));
 
-            } catch (IOException | NumberFormatException e) {
-                System.out.println("Ошибка обработки CComplekt");
+            } catch (IOException | NumberFormatException | NullPointerException | IndexOutOfBoundsException e) {
+                System.out.println("ошибка обработки " + store + " " + category);
                 ;
             }
         }

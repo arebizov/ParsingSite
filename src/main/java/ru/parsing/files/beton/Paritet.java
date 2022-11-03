@@ -20,6 +20,7 @@ public class Paritet {
     public List<SourceData> listSource = new ArrayList<>();
 
     private static int category = 1449;
+    public String store;
 
     public List<SourceData> parsData() throws IOException {
 
@@ -34,7 +35,7 @@ public class Paritet {
 
             try {
                 LoadFromSite loadFromSite = new LoadFromSite();
-                String store = loadFromSite.getStore(url);
+                store = loadFromSite.getStore(url);
                 Profile profile = new Profile();
                 Date date = profile.getDate();
 
@@ -47,16 +48,16 @@ public class Paritet {
                     Elements cols = row.select("td");
                     if (cols.get(1).text().length() > 1) {
 
-                        String name = cols.get(1).text();
+                        String offers = cols.get(1).text();
                         String unit = cols.get(2).text();
                         float price = Float.parseFloat(cols.get(4).text().replace("-", "."));
 
-                        listSource.add(new SourceData(store, name, unit, price, date, category));
+                        listSource.add(new SourceData(store, offers, unit, price, date, category));
                     }
                 }
 
-            } catch (IOException | NumberFormatException e) {
-                System.out.println("ошибка обработки Paritet");
+            } catch (IOException | NumberFormatException |NullPointerException| IndexOutOfBoundsException e) {
+                System.out.println("ошибка обработки " + store + " " + category);
             }
 
         }

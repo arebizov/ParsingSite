@@ -19,6 +19,7 @@ public class RuKeram {
 
     private static int category = 1557;
     private static String unit = "шт";
+    public String store;
 
     public List<SourceData> parsData() throws IOException {
 
@@ -37,7 +38,7 @@ public class RuKeram {
             try {
 
                 LoadFromSite loadFromSite = new LoadFromSite();
-                String store = loadFromSite.getStore(url);
+                store = loadFromSite.getStore(url);
                 String page = LoadFromSite.download(url, ll.indexOf(url));
                 Date date = Profile.getDate();
                 Document doc = Jsoup.parse(page);
@@ -52,8 +53,8 @@ public class RuKeram {
 
                     listSource.add(new SourceData(store, offers, unit, price, date, category));
                 }
-            } catch (IOException | NumberFormatException e) {
-                System.out.println("Ошибка обработки Rukeram");
+            } catch (IOException | NumberFormatException | NullPointerException | IndexOutOfBoundsException e) {
+                System.out.println("ошибка обработки " + store + " " + category);
             }
 
         }

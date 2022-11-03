@@ -19,6 +19,7 @@ public class MosCeram {
 
     private static int category = 1557;
     private static String unit = "шт";
+    public String store;
 
     public List<SourceData> parsData() throws IOException {
 
@@ -38,7 +39,7 @@ public class MosCeram {
             try {
 
                 LoadFromSite loadFromSite = new LoadFromSite();
-                String store = loadFromSite.getStore(url);
+                store = loadFromSite.getStore(url);
                 String page = LoadFromSite.download(url, ll.indexOf(url));
                 Date date = Profile.getDate();
                 Document doc = Jsoup.parse(page);
@@ -48,14 +49,14 @@ public class MosCeram {
                     String offers = item.getElementsByClass("page_title").get(0).getElementsByTag("h1").get(0).getElementsByTag("h1").html();
                     String priceStr = item.getElementsByClass("product_detail_prices").get(0).getElementsByClass("propvalue").attr("class", "price rouble").get(4).attr("itemprop", "price").text();
                     Double price = Double.valueOf(priceStr.split(" ")[0]);
-
-                    System.out.println(offers);
-                    System.out.println(price);
+//
+//                    System.out.println(offers);
+//                    System.out.println(price);
 
                     listSource.add(new SourceData(store, offers, unit, price, date, category));
                 }
-            } catch (IOException | NumberFormatException e) {
-                System.out.println("Ошибка обработки Москерам");;
+            } catch (IOException | NumberFormatException | NullPointerException | IndexOutOfBoundsException e) {
+                System.out.println("ошибка обработки " + store + " " + category);
             }
         }
         return listSource;

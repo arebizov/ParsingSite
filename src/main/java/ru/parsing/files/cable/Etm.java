@@ -21,6 +21,7 @@ public class Etm {
 
     private static int category = 1389;
     private static String unit = "М";
+    public String store;
 
     public List<SourceData> parsData() throws IOException {
 
@@ -39,7 +40,7 @@ public class Etm {
         for (String url : ll) {
             try {
                 LoadFromSite loadFromSite = new LoadFromSite();
-                String store = loadFromSite.getStore(url);
+                store = loadFromSite.getStore(url);
                 String page = LoadFromSite.download(url, ll.indexOf(url));
                 Date date = Profile.getDate();
                 Document doc = Jsoup.parse(page);
@@ -51,8 +52,8 @@ public class Etm {
                 String offers = h1Tags.html();
 
                 listSource.add(new SourceData(store, offers, unit, price, date, category));
-            } catch (IOException | NumberFormatException e) {
-                System.out.println("Ошибка обработки Етм");
+            } catch (IOException | NumberFormatException |NullPointerException| IndexOutOfBoundsException e) {
+                System.out.println("ошибка обработки " + store + " " + category);
                 ;
             }
         }

@@ -17,6 +17,7 @@ public class GlavSnabRoof {
 
     private static int category = 1285;
     private static String unit = "m2";
+    public String store;
 
     public List<SourceData> parsData() throws IOException {
 
@@ -32,18 +33,18 @@ public class GlavSnabRoof {
             try {
                 LoadFromSite loadFromSite = new LoadFromSite();
                 String page = LoadFromSite.download(url, ll.indexOf(url));
-                String store = loadFromSite.getStore(url);
+                store = loadFromSite.getStore(url);
                 Date date = Profile.getDate();
 
                 Document doc = Jsoup.parse(page);
                 String offers = doc.getElementsByTag("h1").html();
                 String priceStr = doc.getElementsByClass("product-prices clearfix").get(0).getElementsByAttributeValue("itemprop", "price").attr("content");
-                Double price = Double.valueOf(priceStr);
+                Double price = Double.valueOf(priceStr) / 10;
 //            System.out.println(offers);
 //            System.out.println(price);
                 listSourceAll.add(new SourceData(store, offers, unit, price, date, category));
-            } catch (IOException | NumberFormatException e) {
-                System.out.println("Ошибка обработки GlavsnabRoof");
+            } catch (IOException | NumberFormatException | NullPointerException | IndexOutOfBoundsException e) {
+                System.out.println("ошибка обработки " + store + " " + category);
             }
         }
         return listSourceAll;

@@ -19,6 +19,7 @@ public class Ekc {
 
     private static int category = 1389;
     private static String unit = "М";
+    public String store;
 
     public List<SourceData> parsData() throws IOException {
 
@@ -37,7 +38,7 @@ public class Ekc {
             try {
                 LoadFromSite loadFromSite = new LoadFromSite();
                 String page = LoadFromSite.download(url, ll.indexOf(url));
-                String store = loadFromSite.getStore(url);
+                store = loadFromSite.getStore(url);
                 Date date = Profile.getDate();
 
                 Document doc = Jsoup.parse(page);
@@ -55,8 +56,8 @@ public class Ekc {
                             String offers = cols.get(0).text();
                             String priceStr = cols.get(2).text().split(" ")[0];
                             Double price = Double.valueOf(priceStr);
-                            System.out.print(offers);
-                            System.out.println(price);
+//                            System.out.print(offers);
+//                            System.out.println(price);
                             listSourceAll.add(new SourceData(store, offers, unit, price, date, category));
                         }
 
@@ -64,8 +65,8 @@ public class Ekc {
 
                 }
 
-            } catch (IOException | NumberFormatException e) {
-                System.out.println("Ошибка обработки Cable");
+            } catch (IOException | NumberFormatException |NullPointerException| IndexOutOfBoundsException e) {
+                System.out.println("ошибка обработки "+store + " "+category);
             }
         }
 

@@ -16,6 +16,7 @@ public class Tskdiplomat {
 
     private static int category = 224461903;
     private static String unit = "М";
+    public String store;
 
     public List<SourceData> parsData() throws IOException {
 
@@ -33,7 +34,7 @@ public class Tskdiplomat {
 
                 LoadFromSite loadFromSite = new LoadFromSite();
                 String page = LoadFromSite.download(url, ll.indexOf(url));
-                String store = loadFromSite.getStore(url);
+                store = loadFromSite.getStore(url);
                 Date date = Profile.getDate();
 
                 Document doc = Jsoup.parse(page);
@@ -43,8 +44,8 @@ public class Tskdiplomat {
 //                System.out.println(price);
 //                System.out.println(offers);
                 listSourceAll.add(new SourceData(store, offers, unit, price, date, category));
-            } catch (IOException | NumberFormatException e) {
-                System.out.println("Ошибка обработки Tskdiplomat");;
+            } catch (IOException | NumberFormatException | NullPointerException | IndexOutOfBoundsException e) {
+                System.out.println("ошибка обработки " + store + " " + category);
             }
         }
         return listSourceAll;
