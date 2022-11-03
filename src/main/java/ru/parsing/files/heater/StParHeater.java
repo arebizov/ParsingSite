@@ -36,8 +36,6 @@ public class StParHeater {
     public List<SourceData> parsing(List<String> ll) throws IOException {
         for (String url : ll) {
 
-            System.out.println(ll.indexOf(url));
-
             try {
 
                 LoadFromSite loadFromSite = new LoadFromSite();
@@ -60,7 +58,7 @@ public class StParHeater {
                 listSource.add(new SourceData(store, offers, unit, price, date, category));
 
             } catch (IOException | NumberFormatException | NullPointerException | IndexOutOfBoundsException e) {
-                System.out.println("ошибка обработки " + store + " " + category);
+                System.out.println("ошибка обработки " + store + " " + category + " "+url);
                 ;
             }
         }

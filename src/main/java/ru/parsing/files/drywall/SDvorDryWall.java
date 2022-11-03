@@ -1,4 +1,4 @@
-package ru.parsing.files.duct;
+package ru.parsing.files.drywall;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -11,48 +11,41 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
-public class VentSystem {
-
-    private static int category = 94777249;
-    private static String unit = "пм";
-    public String store;
+public class SDvorDryWall {
 
     public List<SourceData> listSource = new ArrayList<>();
 
+    private static int category = 113714477;
+    private static String unit = "m2";
+    public String store;
 
     public List<SourceData> parsData() throws IOException {
 
+
         List<String> pagesList = new ArrayList();
-        pagesList.add("https://vent-mo.ru/goods/236589935/");
+   pagesList.add("https://www.sdvor.com/moscow/product/list-gipsokartonnyj-vlagostojkij-knauf-2500h1200h125-mm-5581?utm_campaign=99614117&utm_content=price_10612_gipsokarton&utm_medium=referral&utm_source=www.pulscen.ru&utm_term=5581&utm_terms=79686793_20220722132753");
         List<SourceData> listSource = parsing(pagesList);
         return listSource;
+
     }
 
     public List<SourceData> parsing(List<String> ll) throws IOException {
         for (String url : ll) {
-
             try {
-                String page = LoadFromSite.download(url, ll.indexOf(url));
                 LoadFromSite loadFromSite = new LoadFromSite();
+                store = loadFromSite.getStore(url);
                 Date date = Profile.getDate();
                 Document doc = Jsoup.connect(url).get();
-                store = loadFromSite.getStore(url);
-
-                String offers = doc.getElementsByTag("h1").html();
-                String priceStr = doc.getElementsByAttributeValue("itemprop", "price").text();
-                Double price = Double.valueOf(priceStr);
-//                System.out.println(price);
-//                System.out.println(offers);
-
+                String offers = doc.getElementsByTag("h1").html().replace("&nbsp;", "");
+                String priceStr = doc.getElementsByAttributeValue("aria-label", "Product price").first().html();
+                Double price = Double.valueOf(priceStr.split(" ")[0]);
                 listSource.add(new SourceData(store, offers, unit, price, date, category));
 
-            } catch (IOException | NumberFormatException | NullPointerException | IndexOutOfBoundsException e) {
+
+            } catch (IOException | NumberFormatException e) {
                 System.out.println("ошибка обработки " + store + " " + category + " "+url);
             }
-
         }
         return listSource;
     }
-
 }

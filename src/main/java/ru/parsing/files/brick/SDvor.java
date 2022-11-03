@@ -46,7 +46,7 @@ public class SDvor {
 
 
             } catch (IOException | NumberFormatException e) {
-                System.out.println("ошибка обработки " + store + " " + category);
+                System.out.println("ошибка обработки " + store + " " + category + " "+url);
             }
         }
         return listSource;

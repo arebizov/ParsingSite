@@ -44,7 +44,7 @@ public class KupiKnauf {
 
                 listSource.add(new SourceData(store, offers, unit, price, date, category));
             } catch (IOException | NumberFormatException | NullPointerException | IndexOutOfBoundsException e) {
-                System.out.println("ошибка обработки " + store + " " + category);
+                System.out.println("ошибка обработки " + store + " " + category + " "+url);
             }
         }
 

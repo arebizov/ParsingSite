@@ -22,7 +22,7 @@ public class Test {
         Test test = new Test();
 
         List<String> pagesList = new ArrayList();
-        pagesList.add("https://a-b-z.ru/asfalt-s-dostavkoj-cena-za-tonnu/index.html");
+        pagesList.add("https://rdstroy.ru/catalog/knauf_3/gipsokarton_gkl_12_5_1200_3000_knauf_list_274979/");
         test.parsing(pagesList);
     }
 
@@ -46,17 +46,12 @@ public class Test {
 
 
                 Document doc = Jsoup.connect(url).get();
-                Element table = doc.select("table").get(3);
-                System.out.println(table);
-                Elements rows = table.select("tr");
-                for (int i = 1; i < rows.size(); i++) {
-                    Element row = rows.get(i);
-                    Elements cols = row.select("td");
-
-                    String offers = cols.get(0).text();
-                    String priceStr = cols.get(1).text();
-                    Double price = Double.valueOf(priceStr);
-                }
+//                System.out.println(doc);
+                String offers = doc.getElementsByTag("h1").text();
+                System.out.println(offers);
+                String priceStr = doc.getElementsByClass("ga-item-price-value").get(0).getElementsByAttributeValue("itemprop", "lowPrice").text();
+                Double price = Double.valueOf(priceStr) / 3.33333;
+                System.out.println(price);
 
             } catch (IOException | NumberFormatException e) {
                 System.out.println("Ошибка парсинга Test");

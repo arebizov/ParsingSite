@@ -55,7 +55,7 @@ public class HoumStroi {
 
 
             } catch (IOException | NumberFormatException | NullPointerException | IndexOutOfBoundsException e) {
-                System.out.println("ошибка обработки " + store + " " + category);
+                System.out.println("ошибка обработки " + store + " " + category + " "+url);
             }
         }
         return listSourceAll;

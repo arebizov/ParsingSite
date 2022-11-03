@@ -14,6 +14,10 @@ import ru.parsing.files.cement.SaturnCement;
 import ru.parsing.files.crushedStone.BetonTransStroy;
 import ru.parsing.files.crushedStone.EcoCrushedStone;
 import ru.parsing.files.docExcel.SourceExcel;
+import ru.parsing.files.drywall.KupiKnaufDrywall;
+import ru.parsing.files.drywall.PetrovichDrywall;
+import ru.parsing.files.drywall.RdStroyDrywall;
+import ru.parsing.files.drywall.SDvorDryWall;
 import ru.parsing.files.duct.*;
 import ru.parsing.files.haydite.*;
 import ru.parsing.files.heater.*;
@@ -100,10 +104,9 @@ public class RunParsing {
         StPar stPar= new StPar();
         List<SourceData> listStPar= stPar.parsData();
         parsing.pars(listStPar);
-//
-//
-//        //Membane
-//
+
+////        //Membane
+////
         GlavSnabWaterProof glavSnabWaterProof = new GlavSnabWaterProof();
         List<SourceData> listGvavSnabWaterProof= glavSnabWaterProof.parsData();
         parsing.pars(listGvavSnabWaterProof);
@@ -111,10 +114,9 @@ public class RunParsing {
         Tskdiplomat tskdiplomat= new Tskdiplomat();
         List<SourceData> listTskdiplomat= tskdiplomat.parsData();
         parsing.pars(listTskdiplomat);
-//
-//
-//        paving
 
+////        paving
+//
         Braer braer= new Braer();
         List<SourceData> listBraer= braer.parsData();
         parsing.pars(listBraer);
@@ -140,9 +142,9 @@ public class RunParsing {
         parsing.pars(listTheBrick);
 
 
-//
-//        //Pipes
-//
+////
+////        //Pipes
+
         HidroControl hidroControl= new HidroControl();
         List<SourceData> listHidroControl= hidroControl.parsData();
         parsing.pars(listHidroControl);
@@ -154,9 +156,9 @@ public class RunParsing {
         Teremonline teremonline= new Teremonline();
         List<SourceData> listTeremonline= teremonline.parsData();
         parsing.pars(listTeremonline);
-//
-//        //Roofizol
-//
+////
+////        //Roofizol
+////
         GlavSnabRoof glavSnabRoof= new GlavSnabRoof();
         List<SourceData> listGlavSnabRoof= glavSnabRoof.parsData();
         parsing.pars(listGlavSnabRoof);
@@ -176,16 +178,16 @@ public class RunParsing {
         Tstn tstn= new Tstn();
         List<SourceData> listTstn =tstn.parsData();
         parsing.pars(listTstn);
-//
-//
-//        //LimeStone
-//
+////
+////
+////        //LimeStone
+////
         MgStone mgStone= new MgStone();
         List<SourceData> listMgStone =mgStone.parsData();
         parsing.pars(listMgStone);
+////
+////         //StoneWare
 //
-//         //StoneWare
-
         EstimaStoneWare estimaStoneWare  = new EstimaStoneWare();
         List<SourceData> listEstimaStoneWare =estimaStoneWare.parsData();
         parsing.pars(listEstimaStoneWare);
@@ -194,12 +196,12 @@ public class RunParsing {
         List<SourceData> listGvavSnabStoneWare =gvavSnabStoneWare.parsData();
         parsing.pars(listGvavSnabStoneWare);
 
-
-
 //
-//        //heater
-
 //
+////
+////        //heater
+//
+////
         BikraM bikraM = new BikraM();
         List<SourceData> listSBikraM =bikraM.parsData();
         parsing.pars(listSBikraM);
@@ -229,8 +231,8 @@ public class RunParsing {
         parsing.pars(listVentoRus);
 
 
-        //Asphalt
-
+//        //Asphalt
+//
         Abscds abscds = new Abscds();
         List<SourceData> listAbscds =abscds.parsData();
         parsing.pars(listAbscds);
@@ -250,9 +252,9 @@ public class RunParsing {
         PlatonStroy platonStroy = new PlatonStroy();
         List<SourceData> listPlatonStroy =platonStroy.parsData();
         parsing.pars(listPlatonStroy);
-
-        // cement
-
+//
+//        // cement
+//
         PetrovichCement petrovichCement = new PetrovichCement();
         List<SourceData> listPetrovichCement =petrovichCement.parsData();
         parsing.pars(listPetrovichCement);
@@ -260,9 +262,9 @@ public class RunParsing {
         SaturnCement saturnCement = new SaturnCement();
         List<SourceData> listSaturnCement =saturnCement.parsData();
         parsing.pars(listSaturnCement);
-
-        //crushedStone
-
+//
+//        //crushedStone
+//
         BetonTransStroy betonTransStroy = new BetonTransStroy();
         List<SourceData> listBetonTransStroy =betonTransStroy.parsData();
         parsing.pars(listBetonTransStroy);
@@ -270,9 +272,9 @@ public class RunParsing {
         EcoCrushedStone ecoCrushedStone = new EcoCrushedStone();
         List<SourceData> listEcoCrushedStone =ecoCrushedStone.parsData();
         parsing.pars(listEcoCrushedStone);
-
-        //duct
-
+//
+//        //duct
+//
         CityMetall cityMetall = new CityMetall();
         List<SourceData> listCityMetall =cityMetall.parsData();
         parsing.pars(listCityMetall);
@@ -297,9 +299,9 @@ public class RunParsing {
         List<SourceData> listVentSystem =ventSystem.parsData();
         parsing.pars(listVentSystem);
 
-
-        //haydite
-
+//
+//        //haydite
+//
         CcomplektHaydite ccomplektHaydite = new CcomplektHaydite();
         List<SourceData> listCcomplektHaydite =ccomplektHaydite.parsData();
         parsing.pars(listCcomplektHaydite);
@@ -320,8 +322,8 @@ public class RunParsing {
         List<SourceData> listVektorE =vektorE.parsData();
         parsing.pars(listVektorE);
 
-        //sand
-
+//        //sand
+//
         HoumStroi houmStroi = new HoumStroi();
         List<SourceData> listHoumStroi =houmStroi.parsData();
         parsing.pars(listHoumStroi);
@@ -337,9 +339,9 @@ public class RunParsing {
         TdStroy tdStroy = new TdStroy();
         List<SourceData> listTdStroy =tdStroy.parsData();
         parsing.pars(listTdStroy);
-
-        //stone
-
+//
+//        //stone
+//
         Alkasar alkasar = new Alkasar();
         List<SourceData> listAlkasar =alkasar.parsData();
         parsing.pars(listAlkasar);
@@ -360,8 +362,8 @@ public class RunParsing {
         List<SourceData> listPalmiraStone =palmiraStone.parsData();
         parsing.pars(listPalmiraStone);
 
-        //plaster
-
+//        //plaster
+//
         KupiKnauf kupiKnauf = new KupiKnauf();
         List<SourceData> listKupiKnauf =kupiKnauf.parsData();
         parsing.pars(listKupiKnauf);
@@ -370,7 +372,23 @@ public class RunParsing {
         List<SourceData> listPetrovichPlaster =petrovichPlaster.parsData();
         parsing.pars(listPetrovichPlaster);
 
+        // Drywall
 
+        KupiKnaufDrywall kupiKnaufDrywall = new KupiKnaufDrywall();
+        List<SourceData> listKupiKnaufDrywall =kupiKnaufDrywall.parsData();
+        parsing.pars(listKupiKnaufDrywall);
+
+        PetrovichDrywall petrovichDrywall = new PetrovichDrywall();
+        List<SourceData> listPetrovichDrywall =petrovichDrywall.parsData();
+        parsing.pars(listPetrovichDrywall);
+
+        RdStroyDrywall rdStroyDrywall = new RdStroyDrywall();
+        List<SourceData> listRdStroyDrywall =rdStroyDrywall.parsData();
+        parsing.pars(listRdStroyDrywall);
+
+        SDvorDryWall sDvorDryWall = new SDvorDryWall();
+        List<SourceData> listSDvorDryWall =sDvorDryWall.parsData();
+        parsing.pars(listSDvorDryWall);
 
     }
 }
