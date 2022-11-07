@@ -34,10 +34,10 @@ public class GosMetall {
 
             try {
                 String page = LoadFromSite.download(url, ll.indexOf(url));
-                LoadFromSite loadFromSite = new LoadFromSite();
+
                 Date date = Profile.getDate();
                 Document doc = Jsoup.parse(page);
-                store = loadFromSite.getStore(url);
+                store = Profile.getStore(url);
 
                 String offers = doc.getElementsByTag("h1").html();
                 String priceStr = doc.getElementsByAttributeValue("itemprop", "price").attr("content").replace(" ", "");
@@ -47,8 +47,11 @@ public class GosMetall {
 
                 listSource.add(new SourceData(store, offers, unit, price, date, category));
 
-            } catch (IOException | NumberFormatException |NullPointerException| IndexOutOfBoundsException e) {
-                System.out.println("ошибка обработки " + store + " " + category + " "+url);
+            } catch (IOException | IllegalArgumentException e) {
+                System.out.println("Ошибка чтения данных (time out)" + url);
+
+            } catch ( NullPointerException | IndexOutOfBoundsException e) {
+                System.out.println("Изменился формат данных " + url);
             }
 
         }

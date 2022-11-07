@@ -6,6 +6,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import ru.parsing.SourceData;
 import ru.parsing.sevice.LoadFromSite;
+import ru.parsing.sevice.LoadFromSiteSelenium;
 import ru.parsing.sevice.Profile;
 
 import java.io.IOException;
@@ -37,8 +38,9 @@ public class Abscds {
 
             try {
                 LoadFromSite loadFromSite = new LoadFromSite();
-                store = loadFromSite.getStore(url);
-                String page = LoadFromSite.download(url, ll.indexOf(url));
+
+                String page = LoadFromSiteSelenium.download(url, ll.indexOf(url));
+                store = Profile.getStore(url);
                 Profile profile = new Profile();
                 Date date = profile.getDate();
                 Document doc = Jsoup.parse(page);
@@ -60,8 +62,11 @@ public class Abscds {
 
                 }
 
-            } catch (IOException | NumberFormatException |NullPointerException| IndexOutOfBoundsException e) {
-                System.out.println("ошибка обработки " + store + " " + category + " "+url);
+            } catch (IOException  e) {
+                System.out.println("Ошибка чтения данных (time out)" + url);
+
+            } catch ( NullPointerException | IndexOutOfBoundsException | NumberFormatException e) {
+                System.out.println("Изменился формат данных " + url);
             }
 
         }

@@ -6,6 +6,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import ru.parsing.SourceData;
 import ru.parsing.sevice.LoadFromSite;
+import ru.parsing.sevice.LoadFromSiteSelenium;
 import ru.parsing.sevice.Profile;
 
 import java.io.IOException;
@@ -36,7 +37,10 @@ public class Neotreid {
         for (String url : ll) {
 
             try {
+                LoadFromSiteSelenium loadFromSiteSelenium = new LoadFromSiteSelenium();
+
                 String page = LoadFromSite.download(url, ll.indexOf(url));
+//                System.out.println(page);
                 LoadFromSite loadFromSite = new LoadFromSite();
                 Date date = Profile.getDate();
                 Document doc = Jsoup.parse(page);
@@ -60,8 +64,11 @@ public class Neotreid {
                     }
                 }
 
-            } catch (IOException | NumberFormatException | NullPointerException | IndexOutOfBoundsException e) {
-                System.out.println("ошибка обработки " + store + " " + category + " "+url);
+            } catch (IOException  e) {
+                System.out.println("Ошибка чтения данных (time out)" + url);
+
+            } catch ( NullPointerException | IndexOutOfBoundsException | NumberFormatException e) {
+                System.out.println("Изменился формат данных " + url);
             }
 
         }

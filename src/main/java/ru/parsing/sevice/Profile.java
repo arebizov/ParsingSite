@@ -11,6 +11,11 @@ public class Profile {
         return home;
     }
 
+    public static String getStore(String page) {
+        String store = page.split("/")[2];
+        return store;
+    }
+
 
     public String getExt() {
         String home = ".html";

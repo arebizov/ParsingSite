@@ -35,8 +35,7 @@ public class SDvor {
     public List<SourceData> parsing(List<String> ll) throws IOException {
         for (String url : ll) {
             try {
-                LoadFromSite loadFromSite = new LoadFromSite();
-                store = loadFromSite.getStore(url);
+                store = Profile.getStore(url);
                 Date date = Profile.getDate();
                 Document doc = Jsoup.connect(url).get();
                 String offers = doc.getElementsByTag("h1").html().replace("&nbsp;", "");
@@ -45,8 +44,11 @@ public class SDvor {
                 listSource.add(new SourceData(store, offers, unit, price, date, category));
 
 
-            } catch (IOException | NumberFormatException e) {
-                System.out.println("ошибка обработки " + store + " " + category + " "+url);
+            } catch (IOException | IllegalArgumentException e) {
+                System.out.println("Ошибка чтения данных (time out)" + url);
+
+            } catch ( NullPointerException | IndexOutOfBoundsException e) {
+                System.out.println("Изменился формат данных " + url);
             }
         }
         return listSource;

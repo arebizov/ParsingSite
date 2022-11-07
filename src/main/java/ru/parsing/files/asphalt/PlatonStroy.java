@@ -35,8 +35,8 @@ public class PlatonStroy {
         for (String url : ll) {
 
             try {
-                LoadFromSite loadFromSite = new LoadFromSite();
-                store = loadFromSite.getStore(url);
+
+                store = Profile.getStore(url);
                 String page = LoadFromSite.download(url, ll.indexOf(url));
                 Profile profile = new Profile();
                 Date date = profile.getDate();
@@ -63,8 +63,11 @@ public class PlatonStroy {
                 }
 
 
-            } catch (IOException | NumberFormatException |NullPointerException| IndexOutOfBoundsException e) {
-                System.out.println("ошибка обработки " + store + " " + category + " "+url);
+            } catch (IOException  e) {
+                System.out.println("Ошибка чтения данных (time out)" + url);
+
+            } catch ( NullPointerException | IndexOutOfBoundsException | NumberFormatException e) {
+                System.out.println("Изменился формат данных " + url);
             }
 
         }

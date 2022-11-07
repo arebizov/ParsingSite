@@ -32,8 +32,7 @@ public class SDvorDryWall {
     public List<SourceData> parsing(List<String> ll) throws IOException {
         for (String url : ll) {
             try {
-                LoadFromSite loadFromSite = new LoadFromSite();
-                store = loadFromSite.getStore(url);
+                store = Profile.getStore(url);
                 Date date = Profile.getDate();
                 Document doc = Jsoup.connect(url).get();
                 String offers = doc.getElementsByTag("h1").html().replace("&nbsp;", "");
@@ -41,9 +40,11 @@ public class SDvorDryWall {
                 Double price = Double.valueOf(priceStr.split(" ")[0]);
                 listSource.add(new SourceData(store, offers, unit, price, date, category));
 
+            } catch (IOException  e) {
+                System.out.println("Ошибка чтения данных (time out)" + url);
 
-            } catch (IOException | NumberFormatException e) {
-                System.out.println("ошибка обработки " + store + " " + category + " "+url);
+            } catch ( NullPointerException | IndexOutOfBoundsException | NumberFormatException e) {
+                System.out.println("Изменился формат данных " + url);
             }
         }
         return listSource;

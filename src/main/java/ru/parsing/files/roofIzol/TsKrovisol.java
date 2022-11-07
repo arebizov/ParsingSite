@@ -4,6 +4,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import ru.parsing.SourceData;
 import ru.parsing.sevice.LoadFromSite;
+import ru.parsing.sevice.LoadFromSiteSelenium;
 import ru.parsing.sevice.Profile;
 
 import java.io.IOException;
@@ -34,16 +35,19 @@ public class TsKrovisol {
             try {
                 LoadFromSite loadFromSite = new LoadFromSite();
                 store = loadFromSite.getStore(url);
-                String page = LoadFromSite.download(url, ll.indexOf(url));
+                String page = LoadFromSiteSelenium.download(url, ll.indexOf(url));
                 Date date = Profile.getDate();
                 Document doc = Jsoup.parse(page);
                 String offers = doc.getElementsByTag("h1").html();
-                String priceStr = doc.getElementsByAttributeValue("itemprop", "price").attr("content");
+                String priceStr = doc.getElementsByAttributeValue("name", "buy_price").attr("value");
                 Double price = Double.valueOf(priceStr.replace(" ", ""));
 
                 listSource.add(new SourceData(store, offers, unit, price, date, category));
-            } catch (IOException | NumberFormatException | NullPointerException | IndexOutOfBoundsException e) {
-                System.out.println("ошибка обработки " + store + " " + category + " "+url);
+            } catch (IOException  e) {
+                System.out.println("Ошибка чтения данных (time out)" + url);
+
+            } catch ( NullPointerException | IndexOutOfBoundsException | NumberFormatException e) {
+                System.out.println("Изменился формат данных " + url);
             }
 
         }

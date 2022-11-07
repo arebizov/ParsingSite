@@ -48,8 +48,11 @@ public class VentComplect {
 
                 listSource.add(new SourceData(store, offers, unit, price, date, category));
 
-            } catch (IOException | NumberFormatException |NullPointerException| IndexOutOfBoundsException e) {
-                System.out.println("ошибка обработки " + store + " " + category + " "+url);
+            } catch (IOException  e) {
+                System.out.println("Ошибка чтения данных (time out)" + url);
+
+            } catch ( NullPointerException | IndexOutOfBoundsException | NumberFormatException e) {
+                System.out.println("Изменился формат данных " + url);
             }
 
         }

@@ -54,8 +54,11 @@ public class GranitPk {
                     }
                 }
 
-            } catch (IOException | NumberFormatException | NullPointerException | IndexOutOfBoundsException e) {
-                System.out.println("ошибка обработки " + store + " " + category + " "+url);
+            } catch (IOException | IllegalArgumentException e) {
+                System.out.println("Ошибка чтения данных (time out)" + url);
+
+            } catch ( NullPointerException | IndexOutOfBoundsException e) {
+                System.out.println("Изменился формат данных " + url);
             }
         }
         return listSourceAll;

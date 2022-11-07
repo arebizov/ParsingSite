@@ -6,6 +6,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import ru.parsing.SourceData;
 import ru.parsing.sevice.LoadFromSite;
+import ru.parsing.sevice.LoadFromSiteSelenium;
 import ru.parsing.sevice.Profile;
 
 import java.io.IOException;
@@ -34,7 +35,7 @@ public class Alkasar {
         for (String url : ll) {
             try {
                 LoadFromSite loadFromSite = new LoadFromSite();
-                String page = LoadFromSite.download(url, ll.indexOf(url));
+                String page = LoadFromSiteSelenium.download(url, ll.indexOf(url));
                 store = loadFromSite.getStore(url);
                 Date date = Profile.getDate();
 
@@ -51,8 +52,11 @@ public class Alkasar {
                     listSourceAll.add(new SourceData(store, offers, unit, price, date, category));
                 }
 
-            } catch (IOException | NumberFormatException | NullPointerException | IndexOutOfBoundsException e) {
-                System.out.println("ошибка обработки " + store + " " + category + " "+url);
+            } catch (IOException | IllegalArgumentException e) {
+                System.out.println("Ошибка чтения данных (time out)" + url);
+
+            } catch ( NullPointerException | IndexOutOfBoundsException e) {
+                System.out.println("Изменился формат данных " + url);
             }
         }
         return listSourceAll;

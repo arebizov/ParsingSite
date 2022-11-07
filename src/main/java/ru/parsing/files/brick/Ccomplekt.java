@@ -38,8 +38,8 @@ public class Ccomplekt {
 
             try {
 
-                LoadFromSite loadFromSite = new LoadFromSite();
-                store = loadFromSite.getStore(url);
+
+                store = Profile.getStore(url);
                 String page = LoadFromSite.download(url, ll.indexOf(url));
                 Date date = Profile.getDate();
                 Document doc = Jsoup.parse(page);
@@ -52,8 +52,11 @@ public class Ccomplekt {
 //                System.out.println(price);
                     listSource.add(new SourceData(store, offers, unit, price, date, category));
                 }
-            } catch (IOException | NumberFormatException | NullPointerException | IndexOutOfBoundsException e) {
-                System.out.println("ошибка обработки " + store + " " + category + " "+url);
+            } catch (IOException | IllegalArgumentException e) {
+                System.out.println("Ошибка чтения данных (time out)" + url);
+
+            } catch ( NullPointerException | IndexOutOfBoundsException e) {
+                System.out.println("Изменился формат данных " + url);
             }
         }
         return listSource;

@@ -6,6 +6,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import ru.parsing.SourceData;
 import ru.parsing.sevice.LoadFromSite;
+import ru.parsing.sevice.LoadFromSiteSelenium;
 import ru.parsing.sevice.Profile;
 
 import java.io.IOException;
@@ -32,9 +33,8 @@ public class EcoCrushedStone {
     public List<SourceData> parsing(List<String> ll) throws IOException {
         for (String url : ll) {
             try {
-                LoadFromSite loadFromSite = new LoadFromSite();
-                String page = LoadFromSite.download(url, ll.indexOf(url));
-                store = loadFromSite.getStore(url);
+                String page = LoadFromSiteSelenium.download(url, ll.indexOf(url));
+                store = Profile.getStore(url);
                 Date date = Profile.getDate();
 
                 Document doc = Jsoup.parse(page);
@@ -46,7 +46,7 @@ public class EcoCrushedStone {
                     Elements cols = row.select("td");
                     String offers = null;
                     String priceStr = null;
-                    if (cols.size() > 5) {
+                    if (cols.size() > 5 && cols.get(2).text().length()>2) {
 //
                         offers = cols.get(1).text();
                         priceStr = cols.get(2).text();
@@ -62,13 +62,21 @@ public class EcoCrushedStone {
                     listSourceAll.add(new SourceData(store, offers, unit, price, date, category));
                 }
 
-            } catch (IOException | NumberFormatException |NullPointerException| IndexOutOfBoundsException e) {
-                System.out.println("ошибка обработки " + store + " " + category + " "+url);
-            }
-        }
+            } catch (IOException  e) {
+                System.out.println("Ошибка чтения данных (time out)" + url);
 
-        return listSourceAll;
+            } catch ( NullPointerException | IndexOutOfBoundsException | NumberFormatException e) {
+                System.out.println("Изменился формат данных " + url);
+            }
+//        } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            } catch (NumberFormatException e) {
+//                throw new RuntimeException(e);
+//            }
+
+
 
     }
-
+        return listSourceAll;
+}
 }

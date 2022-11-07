@@ -31,9 +31,9 @@ public class GlavSnabCable {
     public List<SourceData> parsing(List<String> ll) throws IOException {
         for (String url : ll) {
             try {
-                LoadFromSite loadFromSite = new LoadFromSite();
+
                 String page = LoadFromSite.download(url, ll.indexOf(url));
-                store = loadFromSite.getStore(url);
+                store = Profile.getStore(url);
                 Date date = Profile.getDate();
 
                 Document doc = Jsoup.parse(page);
@@ -43,8 +43,11 @@ public class GlavSnabCable {
 //            System.out.println(offers);
 //            System.out.println(price);
                 listSourceAll.add(new SourceData(store, offers, unit, price, date, category));
-            } catch (IOException | NumberFormatException |NullPointerException| IndexOutOfBoundsException e) {
-                System.out.println("ошибка обработки " + store + " " + category+" "+ url);
+            } catch (IOException | IllegalArgumentException e) {
+                System.out.println("Ошибка чтения данных (time out)" + url);
+
+            } catch ( NullPointerException | IndexOutOfBoundsException e) {
+                System.out.println("Изменился формат данных " + url);
             }
         }
 

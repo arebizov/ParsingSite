@@ -10,8 +10,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.interactions.SourceType;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import ru.parsing.SourceData;
 
 import javax.swing.text.html.parser.Entity;
 import java.io.IOException;
@@ -20,51 +22,65 @@ import java.util.concurrent.TimeUnit;
 
 public class SeleniumTest {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
 
         Document doc = Jsoup.parse(download());
-        System.out.println(doc);
-//        Document doc = Jsoup.connect("https://market.yandex.ru/product--shtukaturka-knauf-rotband-30-kg/1863692361?cpa=1").get();
-//        String offers = doc.getElementsByTag("h1").html().replace("&nbsp;","");
-//        System.out.println(offers);
-//        String priceStr = doc.getElementsByAttributeValue("aria-label", "Product price").first().html();
-//        Double price = Double.valueOf(priceStr.split(" ")[0]);
-//        System.out.println(price);
-////        Element pr = doc.getElementsByClass("price-value").first();
-//        System.out.println("________________________");
-//        System.out.println(pr);
-//        System.out.println(pr.childNode(0));
-//        Elements hTags = doc.select("h1");
-//        Elements h1Tags = hTags.select("h1");
-//        String offers = h1Tags.html();
-//        System.out.println(offers);
+//        System.out.println(doc);
+//        System.out.println(doc);
+        Elements table = doc.getElementsByAttributeValue("class", "prices__body");
+        Elements rows = table.select("tr");
+        for (int i = 0; i < rows.size(); i++) {
+            Element row = rows.get(i);
+
+            String offers = "Трубы оцинкованные "+ rows.get(i).select("td").get(0).text();
+
+            Elements cols = row.select("td");
+            Double sum = 0.0;
+            int cnt = 0;
+            for (int j = 3; j < cols.size(); j++) {
+
+                String priceStr = cols.get(j).text().replace(" ", "").replace(" ", "");
+                int w = priceStr.length();
+                if (priceStr.length() > 1) {
+//                    System.out.println(j);
+                    Double price = Double.valueOf(priceStr);
+//                    System.out.println(price);
+                    sum = sum+price;
+                    cnt = cnt+1;
+                }
+
+            } Double avgPrice = sum/cnt;
+            System.out.println(offers);
+            System.out.println(avgPrice);
 
 
-
-
+        }
     }
 
-    public static String download(){
+
+    public static String download() throws InterruptedException {
+
 
         System.setProperty("webdriver.chrome.driver", "d:\\chromedriver.exe");
-        WebDriver driver = new ChromeDriver();
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--start-maximized", "--headless", "--window-size=2560,1440","--ignore-certificate-errors","--disable-extensions","--disable-dev-shm-usage");
+        options.addArguments("--start-maximized", "--headless", "--window-size=2560,1440", "--ignore-certificate-errors", "--disable-extensions", "--disable-dev-shm-usage");
         options.addArguments("--log-level=3");
+        WebDriver driver = new ChromeDriver();
 
-        driver.get("https://moskeram.ru/catalog/kirpich/stroitelnyy_kirpich/stroitelnyy-polnotelyy-m150-vorotinsky.html");
-
-//        WebElement footer = driver.findElement(By.tagName("footer"));
-        Duration fromChar1 = Duration.parse("P2DT3H4M");
-        driver.manage().timeouts().implicitlyWait(fromChar1);
-//        int deltaY = footer.getRect().y;
+        Duration seconds = Duration.ofSeconds(15);
+//        WebDriverWait wait = new WebDriverWait(driver,fromChar1);
+//        wait.until(ExpectedConditions.visibilityOfAllElements());
+        driver.manage().timeouts().implicitlyWait(seconds);
+        driver.manage().timeouts().pageLoadTimeout(seconds);
+        driver.get("https://www.mcena.ru/truby-stalnye/truby-vgp/ocinkovannye-gost-3262_ceny");
+        Thread.sleep(5000);
         new Actions(driver)
-                .scrollByAmount(100, 10000)
+                .scrollByAmount(100, 100000)
                 .perform();
-        driver.manage().timeouts().implicitlyWait(fromChar1);
+        Thread.sleep(5000);
 
         String pageSource = driver.getPageSource();
-        driver.close();
+        driver.quit();
         return pageSource;
     }
 

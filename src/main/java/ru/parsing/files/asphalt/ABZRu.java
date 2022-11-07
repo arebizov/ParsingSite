@@ -6,6 +6,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import ru.parsing.SourceData;
 import ru.parsing.sevice.LoadFromSite;
+import ru.parsing.sevice.LoadFromSiteSelenium;
 import ru.parsing.sevice.Profile;
 
 import java.io.IOException;
@@ -36,21 +37,19 @@ public class ABZRu {
         for (String url : ll) {
 
             try {
-                LoadFromSite loadFromSite = new LoadFromSite();
-                store = loadFromSite.getStore(url);
-                String page = LoadFromSite.download(url, ll.indexOf(url));
+                store = Profile.getStore(url);
+                String page = LoadFromSiteSelenium.download(url, ll.indexOf(url));
                 Profile profile = new Profile();
                 Date date = profile.getDate();
                 Document doc = Jsoup.parse(page);
-                Element table = doc.select("table").get(3);
-//                System.out.println(table);
+                Elements table = doc.getElementsByAttributeValue("id","theTable").select("table");
                 Elements rows = table.select("tr");
                 for (int i = 1; i < rows.size(); i++) {
                     Element row = rows.get(i);
                     Elements cols = row.select("td");
 
-                    String offers = cols.get(0).text();
-                    String priceStr = cols.get(1).text();
+                    String offers = cols.get(0).text()+" "+cols.get(1).text()+" "+cols.get(2).text();
+                    String priceStr = cols.get(3).text().split("/")[0];
                     Double price = Double.valueOf(priceStr);
 
 //
@@ -60,8 +59,11 @@ public class ABZRu {
 
                 }
 
-            } catch (IOException | NumberFormatException |NullPointerException| IndexOutOfBoundsException e) {
-                System.out.println("ошибка обработки " + store + " " + category + " "+url);
+            } catch (IOException  e) {
+                System.out.println("Ошибка чтения данных (time out)" + url);
+
+            } catch ( NullPointerException | IndexOutOfBoundsException | NumberFormatException e) {
+                System.out.println("Изменился формат данных " + url);
             }
 
         }
