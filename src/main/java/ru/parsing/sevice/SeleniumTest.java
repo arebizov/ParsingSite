@@ -72,14 +72,21 @@ public class SeleniumTest {
 //        wait.until(ExpectedConditions.visibilityOfAllElements());
         driver.manage().timeouts().implicitlyWait(seconds);
         driver.manage().timeouts().pageLoadTimeout(seconds);
-        driver.get("https://www.mcena.ru/truby-stalnye/truby-vgp/ocinkovannye-gost-3262_ceny");
+        driver.get("https://www.mcena.ru/metalloprokat/list/goryachekatanyj_ceny#prices-table");
         Thread.sleep(5000);
-        new Actions(driver)
-                .scrollByAmount(100, 100000)
-                .perform();
+//        new Actions(driver)
+//                .scrollByAmount(100, 100000)
+//                .perform();
         Thread.sleep(5000);
+      while (Double.valueOf(driver.findElement(By.className("price-table__button")).getSize().toString().split(", ")[1].replace(")",""))>0) {
+
+          System.out.println(driver.findElement(By.className("price-table__button")).getAccessibleName() );
+          driver.findElement(By.className("price-table__button")).click();
+          Thread.sleep(5000);
+      }
 
         String pageSource = driver.getPageSource();
+//        System.out.println(pageSource);
         driver.quit();
         return pageSource;
     }

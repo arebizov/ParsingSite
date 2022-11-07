@@ -6,6 +6,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import ru.parsing.SourceData;
 import ru.parsing.sevice.LoadFromSiteSelenium;
+import ru.parsing.sevice.LoadFromSiteSeleniumMcena;
 import ru.parsing.sevice.Profile;
 
 import java.io.IOException;
@@ -35,7 +36,7 @@ public class McenaDuct {
         for (String url : ll) {
             try {
 
-                String page = LoadFromSiteSelenium.download(url, ll.indexOf(url));
+                String page = LoadFromSiteSeleniumMcena.download(url, ll.indexOf(url));
                 store = Profile.getStore(url);
                 Date date = Profile.getDate();
 

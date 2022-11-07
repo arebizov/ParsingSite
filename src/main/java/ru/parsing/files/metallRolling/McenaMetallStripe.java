@@ -1,4 +1,4 @@
-package ru.parsing.files.asphalt;
+package ru.parsing.files.metallRolling;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -14,18 +14,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class McenaAsphalt {
+public class McenaMetallStripe {
 
     public List<SourceData> listSourceAll = new ArrayList<>();
 
-    private static int category = 1453;
-    private static String unit = "m3";
+    private static int category = 247116597;
+    private static String unit = "тонна";
     public String store;
 
     public List<SourceData> parsData() throws IOException {
 
         List<String> pagesList = new ArrayList();
-        pagesList.add("https://www.mcena.ru/beton-i-cement/beton/asfaltobeton_ceny");
+        pagesList.add("https://www.mcena.ru/metalloprokat/polosa/polosa-gost-103_ceny");
 
 
         List<SourceData> listSource = parsing(pagesList);
@@ -46,7 +46,7 @@ public class McenaAsphalt {
                 for (int i = 0; i < rows.size(); i++) {
                     Element row = rows.get(i);
 
-                    String offers = "Асфальтобетон " + rows.get(i).select("td").get(0).text();
+                    String offers = "Статьная полоса " + rows.get(i).select("td").get(0).text();
                     Elements cols = row.select("td");
                     Double sum = 0.0;
                     int cnt = 0;

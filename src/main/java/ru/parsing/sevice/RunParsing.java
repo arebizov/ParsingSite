@@ -1,6 +1,7 @@
 package ru.parsing.sevice;
 
 import ru.parsing.SourceData;
+
 import ru.parsing.files.asphalt.*;
 import ru.parsing.files.beton.Paritet;
 import ru.parsing.files.brick.*;
@@ -8,7 +9,6 @@ import ru.parsing.files.cable.CableRu;
 import ru.parsing.files.cable.Ekc;
 import ru.parsing.files.cable.Etm;
 import ru.parsing.files.cable.GlavSnabCable;
-
 import ru.parsing.files.cement.PetrovichCement;
 import ru.parsing.files.cement.SaturnCement;
 import ru.parsing.files.crushedStone.BetonTransStroy;
@@ -24,18 +24,16 @@ import ru.parsing.files.heater.*;
 import ru.parsing.files.limestone.MgStone;
 import ru.parsing.files.membrane.GlavSnabWaterProof;
 import ru.parsing.files.membrane.Tskdiplomat;
+import ru.parsing.files.metallRolling.*;
 import ru.parsing.files.paving.*;
 import ru.parsing.files.pipes.HidroControl;
 import ru.parsing.files.pipes.KermiMarket;
-import ru.parsing.files.pipes.McenaPipes;
+import ru.parsing.files.pipes.McenaPipesZinc;
 import ru.parsing.files.pipes.Teremonline;
 import ru.parsing.files.plaster.KupiKnauf;
 import ru.parsing.files.plaster.PetrovichPlaster;
 import ru.parsing.files.roofIzol.*;
-import ru.parsing.files.sand.HoumStroi;
-import ru.parsing.files.sand.NerudSnab;
-import ru.parsing.files.sand.RoviService;
-import ru.parsing.files.sand.TdStroy;
+import ru.parsing.files.sand.*;
 import ru.parsing.files.stone.*;
 import ru.parsing.files.stoneware.EstimaStoneWare;
 import ru.parsing.files.stoneware.GvavSnabStoneWare;
@@ -52,99 +50,99 @@ public class RunParsing {
         List<SourceData> finalList = sourceExcel.parsData();
         parsing.pars(finalList);
 
-////        //Beton
+//        //Beton
 
-//        Paritet paritet = new Paritet();
-//        List<SourceData> listParitet = paritet.parsData();
-//        parsing.pars(listParitet);
-//
-//////        //Cable
-//
-//        CableRu cableRu = new CableRu();
-//        List<SourceData> listCableRu = cableRu.parsData();
-//        parsing.pars(listCableRu);
-//
-//        Etm etm = new Etm();
-//        List<SourceData> listEtm = etm.parsData();
-//        parsing.pars(listEtm);
-//
-//        Ekc ekc = new Ekc();
-//        List<SourceData> listEkc = ekc.parsData();
-//        parsing.pars(listEkc);
-//
-//        GlavSnabCable glavSnabCable = new GlavSnabCable();
-//        List<SourceData> listGvavSnabCable = glavSnabCable.parsData();
-//        parsing.pars(listGvavSnabCable);
-////////
-////////        //Brick
+        Paritet paritet = new Paritet();
+        List<SourceData> listParitet = paritet.parsData();
+        parsing.pars(listParitet);
+
+////        //Cable
+
+        CableRu cableRu = new CableRu();
+        List<SourceData> listCableRu = cableRu.parsData();
+        parsing.pars(listCableRu);
+
+        Etm etm = new Etm();
+        List<SourceData> listEtm = etm.parsData();
+        parsing.pars(listEtm);
+
+        Ekc ekc = new Ekc();
+        List<SourceData> listEkc = ekc.parsData();
+        parsing.pars(listEkc);
+
+        GlavSnabCable glavSnabCable = new GlavSnabCable();
+        List<SourceData> listGvavSnabCable = glavSnabCable.parsData();
+        parsing.pars(listGvavSnabCable);
 //////
-//        Ccomplekt ccomplekt= new Ccomplekt();
-//        List<SourceData> listCcomlect= ccomplekt.parsData();
-//        parsing.pars(listCcomlect);
-//
-//        Kirpich kirpich= new Kirpich();
-//        List<SourceData> listKirpich= kirpich.parsData();
-//        parsing.pars(listKirpich);
-//
-//        MosCeram mosCeram= new MosCeram();
-//        List<SourceData> listMosCeram= mosCeram.parsData();
-//        parsing.pars(listMosCeram);
+//////        //Brick
 ////
-//        OblCeram oblCeram= new OblCeram();
-//        List<SourceData> listOblCeram= oblCeram.parsData();
-//        parsing.pars(listOblCeram);
+        Ccomplekt ccomplekt= new Ccomplekt();
+        List<SourceData> listCcomlect= ccomplekt.parsData();
+        parsing.pars(listCcomlect);
+
+        Kirpich kirpich= new Kirpich();
+        List<SourceData> listKirpich= kirpich.parsData();
+        parsing.pars(listKirpich);
+
+        MosCeram mosCeram= new MosCeram();
+        List<SourceData> listMosCeram= mosCeram.parsData();
+        parsing.pars(listMosCeram);
 //
-//        RuKeram ruKeram = new RuKeram();
-//        List<SourceData> listRuKeram = ruKeram.parsData();
-//        parsing.pars(listRuKeram);
-//
-//        SDvor sDvor= new SDvor();
-//        List<SourceData> listSDvor= sDvor.parsData();
-//        parsing.pars(listSDvor);
-//
-//        StPar stPar= new StPar();
-//        List<SourceData> listStPar= stPar.parsData();
-//        parsing.pars(listStPar);
-//
-//////////        //Membane
-//
-//        GlavSnabWaterProof glavSnabWaterProof = new GlavSnabWaterProof();
-//        List<SourceData> listGvavSnabWaterProof= glavSnabWaterProof.parsData();
-//        parsing.pars(listGvavSnabWaterProof);
-//
-//        Tskdiplomat tskdiplomat= new Tskdiplomat();
-//        List<SourceData> listTskdiplomat= tskdiplomat.parsData();
-//        parsing.pars(listTskdiplomat);
-//
-//////////        paving
-//
-//        Braer braer= new Braer();
-//        List<SourceData> listBraer= braer.parsData();
-//        parsing.pars(listBraer);
-//
-//        GvavSnabPaving gvavSnabPaving= new GvavSnabPaving();
-//        List<SourceData> listGvavSnabPaving= gvavSnabPaving.parsData();
-//        parsing.pars(listGvavSnabPaving);
-//
-//        KlinkerHouse klinkerHouse= new KlinkerHouse();
-//        List<SourceData> listKlinkerHouse= klinkerHouse.parsData();
-//        parsing.pars(listKlinkerHouse);
-//
-//        PetrovichPaving petrovichPaving= new PetrovichPaving();
-//        List<SourceData> listPetrovichPaving= petrovichPaving.parsData();
-//        parsing.pars(listPetrovichPaving);
-//
-//        SlavDom slavDom= new SlavDom();
-//        List<SourceData> listSlavdom= slavDom.parsData();
-//        parsing.pars(listSlavdom);
-//
-//        TheBrick theBrick= new TheBrick();
-//        List<SourceData> listTheBrick= theBrick.parsData();
-//        parsing.pars(listTheBrick);
-//
-////////
-//      //Pipes
-//
+        OblCeram oblCeram= new OblCeram();
+        List<SourceData> listOblCeram= oblCeram.parsData();
+        parsing.pars(listOblCeram);
+
+        RuKeram ruKeram = new RuKeram();
+        List<SourceData> listRuKeram = ruKeram.parsData();
+        parsing.pars(listRuKeram);
+
+        SDvor sDvor= new SDvor();
+        List<SourceData> listSDvor= sDvor.parsData();
+        parsing.pars(listSDvor);
+
+        StPar stPar= new StPar();
+        List<SourceData> listStPar= stPar.parsData();
+        parsing.pars(listStPar);
+
+////////        //Membane
+
+        GlavSnabWaterProof glavSnabWaterProof = new GlavSnabWaterProof();
+        List<SourceData> listGvavSnabWaterProof= glavSnabWaterProof.parsData();
+        parsing.pars(listGvavSnabWaterProof);
+
+        Tskdiplomat tskdiplomat= new Tskdiplomat();
+        List<SourceData> listTskdiplomat= tskdiplomat.parsData();
+        parsing.pars(listTskdiplomat);
+
+////////        paving
+
+        Braer braer= new Braer();
+        List<SourceData> listBraer= braer.parsData();
+        parsing.pars(listBraer);
+
+        GvavSnabPaving gvavSnabPaving= new GvavSnabPaving();
+        List<SourceData> listGvavSnabPaving= gvavSnabPaving.parsData();
+        parsing.pars(listGvavSnabPaving);
+
+        KlinkerHouse klinkerHouse= new KlinkerHouse();
+        List<SourceData> listKlinkerHouse= klinkerHouse.parsData();
+        parsing.pars(listKlinkerHouse);
+
+        PetrovichPaving petrovichPaving= new PetrovichPaving();
+        List<SourceData> listPetrovichPaving= petrovichPaving.parsData();
+        parsing.pars(listPetrovichPaving);
+
+        SlavDom slavDom= new SlavDom();
+        List<SourceData> listSlavdom= slavDom.parsData();
+        parsing.pars(listSlavdom);
+
+        TheBrick theBrick= new TheBrick();
+        List<SourceData> listTheBrick= theBrick.parsData();
+        parsing.pars(listTheBrick);
+
+//////
+      //Pipes
+
         HidroControl hidroControl= new HidroControl();
         List<SourceData> listHidroControl= hidroControl.parsData();
         parsing.pars(listHidroControl);
@@ -156,10 +154,10 @@ public class RunParsing {
         Teremonline teremonline= new Teremonline();
         List<SourceData> listTeremonline= teremonline.parsData();
         parsing.pars(listTeremonline);
-
-        McenaPipes mcenaPipes = new McenaPipes();
-        List<SourceData> listMcenaPipes= mcenaPipes.parsData();
-        parsing.pars(listMcenaPipes);
+//
+        McenaPipesZinc mcenaPipesZinc = new McenaPipesZinc();
+        List<SourceData> listMcenaPipesZinc = mcenaPipesZinc.parsData();
+        parsing.pars(listMcenaPipesZinc);
 //
 ////////        //Roofizol
 //
@@ -248,13 +246,15 @@ public class RunParsing {
         List<SourceData> listIAsfalt =iAsfalt.parsData();
         parsing.pars(listIAsfalt);
 
+        McenaAsphalt mcenaAsphalt = new McenaAsphalt();
+        List<SourceData> listMcenaAsphalt= mcenaAsphalt.parsData();
+        parsing.pars(listMcenaAsphalt);
+
         PlatonStroy platonStroy = new PlatonStroy();
         List<SourceData> listPlatonStroy =platonStroy.parsData();
         parsing.pars(listPlatonStroy);
 
-        McenaAsphalt mcenaAsphalt = new McenaAsphalt();
-        List<SourceData> listMcenaAsphalt= mcenaAsphalt.parsData();
-        parsing.pars(listMcenaAsphalt);
+
 //
 ////////        // cement
 
@@ -286,6 +286,12 @@ public class RunParsing {
         List<SourceData> listGosMetall =gosMetall.parsData();
         parsing.pars(listGosMetall);
 
+
+        McenaDuct mcenaDuct = new McenaDuct();
+        List<SourceData> listMcenaDuct = mcenaDuct.parsData();
+        parsing.pars(listMcenaDuct);
+
+
         RosMet rosMet = new RosMet();
         List<SourceData> listRosMet =rosMet.parsData();
         parsing.pars(listRosMet);
@@ -302,9 +308,7 @@ public class RunParsing {
         List<SourceData> listVentSystem =ventSystem.parsData();
         parsing.pars(listVentSystem);
 
-        McenaDuct mcenaDuct = new McenaDuct();
-        List<SourceData> listMcenaDuct= mcenaDuct.parsData();
-        parsing.pars(listMcenaDuct);
+
 //
 //
 ////////        //haydite
@@ -313,6 +317,10 @@ public class RunParsing {
         List<SourceData> listCcomplektHaydite =ccomplektHaydite.parsData();
         parsing.pars(listCcomplektHaydite);
 
+        McenaHaydite mcenaHaydite = new McenaHaydite();
+        List<SourceData> listMcenaHaydite = mcenaHaydite.parsData();
+        parsing.pars(listMcenaHaydite);
+//
         NerudSnabHaydite nerudSnabHaydite = new NerudSnabHaydite();
         List<SourceData> listNerudSnabHaydite =nerudSnabHaydite.parsData();
         parsing.pars(listNerudSnabHaydite);
@@ -342,11 +350,16 @@ public class RunParsing {
         RoviService roviService = new RoviService();
         List<SourceData> listRoviService =roviService.parsData();
         parsing.pars(listRoviService);
-
+//
         TdStroy tdStroy = new TdStroy();
-        List<SourceData> listTdStroy =tdStroy.parsData();
+        List<SourceData> listTdStroy = tdStroy.parsData();
         parsing.pars(listTdStroy);
 
+
+        McenaSand mcenaSand = new McenaSand();
+        List<SourceData> listMcenaSand = mcenaSand.parsData();
+        parsing.pars(listMcenaSand);
+//
 //////        //stone
 
         Alkasar alkasar = new Alkasar();
@@ -396,6 +409,44 @@ public class RunParsing {
         SDvorDryWall sDvorDryWall = new SDvorDryWall();
         List<SourceData> listSDvorDryWall =sDvorDryWall.parsData();
         parsing.pars(listSDvorDryWall);
+
+        //metallRolling
+
+        McenaBeam mcenaBeam = new McenaBeam();
+        List<SourceData> listMcenaBeam = mcenaBeam.parsData();
+        parsing.pars(listMcenaBeam);
+
+        McenaIronStick mcenaIronStick = new McenaIronStick();
+        List<SourceData> listMcenaIronStick = mcenaIronStick.parsData();
+        parsing.pars(listMcenaIronStick);
+
+        McenaList mcenaList = new McenaList();
+        List<SourceData> listMcenaList = mcenaList.parsData();
+        parsing.pars(listMcenaList);
+
+        McenaMetallStripe mcenaMetallStripe = new McenaMetallStripe();
+        List<SourceData> listMcenaMetallStripe = mcenaMetallStripe.parsData();
+        parsing.pars(listMcenaMetallStripe);
+
+        McenaPipesSquareSteel mcenaPipesSquareSteel = new McenaPipesSquareSteel();
+        List<SourceData> listMcenaPipesSquareSteel = mcenaPipesSquareSteel.parsData();
+        parsing.pars(listMcenaPipesSquareSteel);
+
+        McenaChannel mcenaChannel = new McenaChannel();
+        List<SourceData> listMcenaChannel = mcenaChannel.parsData();
+        parsing.pars(listMcenaChannel);
+
+        McenaCorner mcenaCorner = new McenaCorner();
+        List<SourceData> listMcenaMcenaCorner = mcenaCorner.parsData();
+        parsing.pars(listMcenaMcenaCorner);
+
+        McenaCornerv2 mcenaCornerv2 = new McenaCornerv2();
+        List<SourceData> listMcenaCornerv2 = mcenaCornerv2.parsData();
+        parsing.pars(listMcenaCornerv2);
+
+
+
+
 
     }
 }

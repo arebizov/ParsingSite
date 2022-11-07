@@ -1,12 +1,11 @@
-package ru.parsing.files.pipes;
+package ru.parsing.files.metallRolling;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import ru.parsing.SourceData;
-import ru.parsing.sevice.LoadFromSite;
-import ru.parsing.sevice.LoadFromSiteSelenium;
+import ru.parsing.sevice.LoadFromSiteSeleniumMcena;
 import ru.parsing.sevice.Profile;
 
 import java.io.IOException;
@@ -14,18 +13,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class McenaPipes {
+public class McenaPipesSquareSteel {
 
     public List<SourceData> listSourceAll = new ArrayList<>();
 
-    private static int category = 7189;
+    private static int category = 247116597;
     private static String unit = "тонна";
     public String store;
 
     public List<SourceData> parsData() throws IOException {
 
         List<String> pagesList = new ArrayList();
-        pagesList.add("https://www.mcena.ru/truby-stalnye/truby-vgp/ocinkovannye-gost-3262_ceny");
+        pagesList.add("https://www.mcena.ru/truby-stalnye/truby-kvadratnye/ehlektrosvarnye-tu-14-105-737-04_ceny");
 
 
         List<SourceData> listSource = parsing(pagesList);
@@ -36,7 +35,7 @@ public class McenaPipes {
         for (String url : ll) {
             try {
 
-                String page = LoadFromSiteSelenium.download(url, ll.indexOf(url));
+                String page = LoadFromSiteSeleniumMcena.download(url, ll.indexOf(url));
                 store = Profile.getStore(url);
                 Date date = Profile.getDate();
 
@@ -46,7 +45,7 @@ public class McenaPipes {
                 for (int i = 0; i < rows.size(); i++) {
                     Element row = rows.get(i);
 
-                    String offers = "Трубы оцинкованные " + rows.get(i).select("td").get(0).text();
+                    String offers = "Трубы квадратные " + rows.get(i).select("td").get(0).text();
                     Elements cols = row.select("td");
                     Double sum = 0.0;
                     int cnt = 0;
