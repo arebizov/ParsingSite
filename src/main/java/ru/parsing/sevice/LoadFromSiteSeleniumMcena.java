@@ -41,11 +41,17 @@ public class LoadFromSiteSeleniumMcena {
             new Actions(driver)
                     .scrollByAmount(100, 100000)
                     .perform();
-            while (Double.valueOf(driver.findElement(By.className("price-table__button")).getSize().toString().split(", ")[1].replace(")", "")) > 0) {
+            int elemements = driver.findElements(By.className("price-table__button")).size();
+            if (elemements>0){
 
-                System.out.println(driver.findElement(By.className("price-table__button")).getAccessibleName());
-                driver.findElement(By.className("price-table__button")).click();
-                Thread.sleep(15000);
+                //driver.findElement(By.className("prices-more")).getAccessibleName().equals("СМОТРЕТЬ ЕЩЕ") == true
+                while (!driver.findElement(By.className("prices-more")).getAttribute("style").equals("display: none;")) {
+//            System.out.println(driver.findElement(By.className("prices-more")).toString());
+                    driver.findElement(By.className("price-table__button")).click();
+                    Thread.sleep(3000);}
+            }
+            else {
+                Thread.sleep(3000);
             }
             pageSource = driver.getPageSource();
             driver.quit();

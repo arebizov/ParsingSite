@@ -18,6 +18,8 @@ import ru.parsing.SourceData;
 import javax.swing.text.html.parser.Entity;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 
 public class SeleniumTest {
@@ -32,7 +34,7 @@ public class SeleniumTest {
         for (int i = 0; i < rows.size(); i++) {
             Element row = rows.get(i);
 
-            String offers = "Трубы оцинкованные "+ rows.get(i).select("td").get(0).text();
+            String offers = "Трубы оцинкованные " + rows.get(i).select("td").get(0).text();
 
             Elements cols = row.select("td");
             Double sum = 0.0;
@@ -45,11 +47,12 @@ public class SeleniumTest {
 //                    System.out.println(j);
                     Double price = Double.valueOf(priceStr);
 //                    System.out.println(price);
-                    sum = sum+price;
-                    cnt = cnt+1;
+                    sum = sum + price;
+                    cnt = cnt + 1;
                 }
 
-            } Double avgPrice = sum/cnt;
+            }
+            Double avgPrice = sum / cnt;
             System.out.println(offers);
             System.out.println(avgPrice);
 
@@ -72,18 +75,27 @@ public class SeleniumTest {
 //        wait.until(ExpectedConditions.visibilityOfAllElements());
         driver.manage().timeouts().implicitlyWait(seconds);
         driver.manage().timeouts().pageLoadTimeout(seconds);
-        driver.get("https://www.mcena.ru/metalloprokat/list/goryachekatanyj_ceny#prices-table");
-        Thread.sleep(5000);
+        driver.get("https://www.mcena.ru/metalloprokat/polosa/polosa-gost-103_ceny");
+        Thread.sleep(3000);
 //        new Actions(driver)
 //                .scrollByAmount(100, 100000)
 //                .perform();
-        Thread.sleep(5000);
-      while (Double.valueOf(driver.findElement(By.className("price-table__button")).getSize().toString().split(", ")[1].replace(")",""))>0) {
+//        Thread.sleep(5000);
+        int elemements = driver.findElements(By.className("price-table__button")).size();
+        System.out.println(elemements);
+        if (elemements>0){
 
-          System.out.println(driver.findElement(By.className("price-table__button")).getAccessibleName() );
-          driver.findElement(By.className("price-table__button")).click();
-          Thread.sleep(5000);
-      }
+            //driver.findElement(By.className("prices-more")).getAccessibleName().equals("СМОТРЕТЬ ЕЩЕ") == true
+            while (!driver.findElement(By.className("prices-more")).getAttribute("style").equals("display: none;")) {
+//            System.out.println(driver.findElement(By.className("prices-more")).toString());
+                driver.findElement(By.className("price-table__button")).click();
+                Thread.sleep(3000);}
+            }
+        else {
+            Thread.sleep(3000);
+        }
+
+
 
         String pageSource = driver.getPageSource();
 //        System.out.println(pageSource);
